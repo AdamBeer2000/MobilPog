@@ -1,10 +1,11 @@
 package com.mobilpogbead.entity
 
-abstract class Entity (private var coordinates: Pair<Int, Int>) {
-
+abstract class Entity (private var coordinates: Pair<Int, Int>)
+{
     // ABSTRACT VARIABLES
     abstract var speed: Int
     abstract var hp: Int
+    abstract var hitbox:Array<Array<Byte>>
 
     // ABSTRACT FUNCTIONS
     abstract fun hit()

@@ -1,4 +1,11 @@
 package com.mobilpogbead.view
 
-class View {
+import com.mobilpogbead.model.Model
+
+class View(val model:Model)
+{
+    fun update()
+    {
+
+    }
 }
