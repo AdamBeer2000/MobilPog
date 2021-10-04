@@ -1,5 +1,12 @@
 package com.mobilpogbead.entity
 
-class Enemy
+class Enemy(private var x: Int, private var y: Int): Entity(x, y)
 {
+    override var speed: Int = 0
+    override var hp: Int = Int.MAX_VALUE
+    override var hitbox = arrayOf(arrayOf(false))
+
+    override fun hit() {
+        this.hp = 0
+    }
 }
