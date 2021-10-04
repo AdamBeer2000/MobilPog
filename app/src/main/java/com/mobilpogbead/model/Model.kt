@@ -6,7 +6,13 @@ class Model()
     val objects=ArrayList<Entity>()
     fun checkHits()
     {
+        for(obj in objects)
+        {
+            if(false)//todo hitbox checkh
+            {
 
+            }
+        }
     }
     fun clearDead()
     {
