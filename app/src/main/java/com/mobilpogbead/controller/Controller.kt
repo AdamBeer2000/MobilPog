@@ -13,8 +13,8 @@ class Controller
     {
         while(true)
         {
+            //todo késleltetés
             //todo szenzor model.()
-
             view.update()
         }
     }

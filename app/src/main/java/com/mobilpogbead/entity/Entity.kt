@@ -1,6 +1,6 @@
 package com.mobilpogbead.entity
 
-abstract class Entity (private var coordinates: Pair<Int, Int>)
+abstract class Entity (private var x:Int,private var y:Int)
 {
     // ABSTRACT VARIABLES
     abstract var speed: Int
@@ -9,8 +9,20 @@ abstract class Entity (private var coordinates: Pair<Int, Int>)
 
     // ABSTRACT FUNCTIONS
     abstract fun hit()
-    abstract fun moveRight()
-    abstract fun moveLeft()
-    abstract fun moveUp()
-    abstract fun moveDown()
+    fun moveRight()
+    {
+        x+=speed
+    }
+    fun moveLeft()
+    {
+        x-=speed
+    }
+    fun moveUp()
+    {
+        y-=speed
+    }
+    fun moveDown()
+    {
+        y+=speed
+    }
 }
