@@ -16,12 +16,5 @@ class Model()
     }
     fun clearDead()
     {
-        for(obj in objects)
-        {
-            if(obj.hp<=0)
-            {
-                objects.remove(obj)
-            }
-        }
     }
 }
