@@ -1,11 +1,13 @@
 package com.mobilpogbead.entity
+import java.nio.file.Paths
 
-abstract class Entity (private var x:Int,private var y:Int)
+abstract class Entity (var x:Int,var y:Int)
 {
+
     // ABSTRACT VARIABLES
     protected abstract var speed: Int
     protected abstract var hp: Int
-    protected abstract var hitbox:Array<Array<Boolean>>
+    abstract var hitbox:Array<Array<Boolean>>
 
     // ABSTRACT FUNCTIONS
 

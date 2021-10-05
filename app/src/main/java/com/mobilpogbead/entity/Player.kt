@@ -1,6 +1,6 @@
 package com.mobilpogbead.entity
 
-class Player(private var x: Int, private var y: Int): Entity(x, y)
+class Player(x: Int,y: Int): Entity(x, y)
 {
     override var speed: Int = 0
     override var hp: Int = 3

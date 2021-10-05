@@ -16,5 +16,12 @@ class Model()
     }
     fun clearDead()
     {
+<<<<<<< Updated upstream
+=======
+        for(obj in objects)
+        {
+
+        }
+>>>>>>> Stashed changes
     }
 }
