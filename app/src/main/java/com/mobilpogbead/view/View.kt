@@ -2,6 +2,7 @@ package com.mobilpogbead.view
 
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.util.Log
 import android.widget.ImageView
 import androidx.core.graphics.get
 import androidx.core.graphics.set
@@ -11,8 +12,6 @@ import com.mobilpogbead.model.Model
 
 class View(private val model:Model)
 {
-    val render=HashMap<String,Bitmap>()
-
     var renderedImage = Bitmap.createBitmap(500, 500, Bitmap.Config.ARGB_8888)
         private set
 
@@ -27,30 +26,30 @@ class View(private val model:Model)
         }
     }
 
-    fun binde(imgv: ImageView)
+    fun bind(imgv: ImageView)
     {
         imgv.setImageBitmap(renderedImage)
     }
 
     fun update()
     {
+        Log.d("update","Update starts")
+        Log.d("update","Obj num: "+model.objects.size)
         for (obj in model.objects)
         {
-            if(obj is Enemy)
+            val hitbox=obj.hitbox
+            Log.d("update","Obj hitbox size: "+obj.hitbox.size*obj.hitbox[0].size)
+            for(x in 0 until hitbox.size)
             {
-                val rend=render["Enemy"]
-                if(rend!=null)
+                for(y in 0 until hitbox[x].size)
                 {
-                    for(x in obj.x until rend.width)
+                    if(hitbox[x][y])
                     {
-                        for(y in obj.y until rend.height)
-                        {
-                            renderedImage[x, y] = rend[x, y]
-                        }
+                        Log.d("update","true")
+                        renderedImage[x+obj.x, y+obj.y]=Color.WHITE
                     }
                 }
             }
-
         }
     }
 }

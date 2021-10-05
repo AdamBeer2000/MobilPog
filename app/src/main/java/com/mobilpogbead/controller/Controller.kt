@@ -2,6 +2,7 @@ package com.mobilpogbead.controller
 
 import android.content.Context
 import android.content.Context.*
+import android.graphics.Bitmap
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -9,16 +10,17 @@ import android.hardware.SensorManager
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat.getSystemService
+import com.mobilpogbead.entity.EntityFactory
 import com.mobilpogbead.model.Model
 import com.mobilpogbead.view.View
 import kotlin.system.exitProcess
 import kotlin.time.*
 
-class Controller(private var context: Context)
+class Controller(private var context: Context,entityFactory: EntityFactory)
 {
     private lateinit var sensorManager: SensorManager;
 
-    val model=Model()
+    val model=Model(entityFactory)
     val view=View(model)
 
     init

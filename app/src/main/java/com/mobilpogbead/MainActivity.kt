@@ -1,44 +1,37 @@
 package com.mobilpogbead
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-<<<<<<< Updated upstream
-import android.util.Log
-import com.mobilpogbead.controller.Controller
-
-class MainActivity : AppCompatActivity() {
-
-    var controller = Controller(this)
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        controller.view.
-=======
-import android.widget.ImageView
-import com.mobilpogbead.controller.Controller
-import android.graphics.drawable.BitmapDrawable
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import com.mobilpogbead.entity.Enemy
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.ImageView
+import com.mobilpogbead.controller.Controller
+import com.mobilpogbead.entity.EntityFactory
 
 
 class MainActivity : AppCompatActivity() {
 
-    var controller= Controller()
+    lateinit var controller:Controller
+    lateinit var defaultEnemyGraphics:Bitmap
+
+    private fun loadResources():HashMap<String, Bitmap>
+    {
+        var res=HashMap<String, Bitmap>()
+        res["Enemy"]=defaultEnemyGraphics
+        return res
+    }
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val img=findViewById<ImageView>(R.id.battlegound)
-        val icon = BitmapFactory.decodeResource(resources, R.drawable.default_enemy)
 
+        defaultEnemyGraphics= BitmapFactory.decodeResource(resources, R.drawable.default_enemy)
 
+        controller=Controller(this, EntityFactory(loadResources()))
 
-        controller.view.binde(img)
-        controller.view.render["Enemy"]=icon
->>>>>>> Stashed changes
+        controller.view.bind(img)
         controller.view.update()
         //controller.start()
     }

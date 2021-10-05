@@ -5,19 +5,11 @@ import android.graphics.BitmapFactory
 import android.content.res.Resources
 
 
-class Enemy(x: Int,y: Int): Entity(x, y)
+class Enemy(x: Int,y: Int,hitbox:Array<BooleanArray>): Entity(x, y,hitbox)
 {
-    private fun loadRes():Array<Array<Boolean>>
-    {
-        val hitboxor= arrayOf(
-            arrayOf(false)
-        )
-        return hitboxor
-    }
 
     override var speed: Int = 0
     override var hp: Int = Int.MAX_VALUE
-    override var hitbox = loadRes()
 
     override fun hit() {
         this.hp = 0
