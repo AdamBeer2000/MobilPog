@@ -1,6 +1,8 @@
 package com.mobilpogbead.entity
 
-class Barricade(x: Int, y: Int,hitbox:Array<BooleanArray>):Entity(x, y,hitbox)
+import android.graphics.Bitmap
+
+class Barricade(x: Int, y: Int,gfx: Bitmap, hitbox:Array<BooleanArray>):Entity(x, y,gfx,hitbox)
 {
     override var speed: Int=0
     override var hp: Int=Int.MAX_VALUE

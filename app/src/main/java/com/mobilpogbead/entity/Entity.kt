@@ -1,9 +1,9 @@
 package com.mobilpogbead.entity
+import android.graphics.Bitmap
 import java.nio.file.Paths
 
-abstract class Entity (var x:Int,var y:Int,var hitbox:Array<BooleanArray>)
+abstract class Entity (var x:Int, var y:Int, var gfx: Bitmap, var hitbox:Array<BooleanArray>)
 {
-
     // ABSTRACT VARIABLES
     protected abstract var speed: Int
     protected abstract var hp: Int

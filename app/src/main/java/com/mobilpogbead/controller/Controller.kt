@@ -30,15 +30,16 @@ class Controller(private var context: Context,entityFactory: EntityFactory)
 
     fun start()
     {
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        //this.setUpSensor()
+        view.update()
+        //todo késleltetés
+        //todo szenzor model.()
 
-        this.setUpSensor()
-
-        while(true)
+        for(k in 0 until 10)
         {
-            //todo késleltetés
-            //todo szenzor model.()
-            view.update()
+            Log.d("controller","refresh")
+            model.progress()
         }
     }
 

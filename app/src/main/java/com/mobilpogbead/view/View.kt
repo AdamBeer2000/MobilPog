@@ -14,9 +14,23 @@ class View(private val model:Model)
 {
     var renderedImage = Bitmap.createBitmap(500, 500, Bitmap.Config.ARGB_8888)
         private set
-
+    lateinit var imgv:ImageView
     init
     {
+
+    }
+
+    fun bind(imgv: ImageView)
+    {
+        this.imgv=imgv
+        imgv.setImageBitmap(renderedImage)
+    }
+
+    fun update()
+    {
+
+        Log.d("update","Update starts")
+        Log.d("update","Obj num: "+model.objects.size)
         for(x in 0 until 500)
         {
             for(y in 0 until 500)
@@ -24,32 +38,22 @@ class View(private val model:Model)
                 renderedImage[x, y] = Color.BLACK
             }
         }
-    }
-
-    fun bind(imgv: ImageView)
-    {
-        imgv.setImageBitmap(renderedImage)
-    }
-
-    fun update()
-    {
-        Log.d("update","Update starts")
-        Log.d("update","Obj num: "+model.objects.size)
         for (obj in model.objects)
         {
-            val hitbox=obj.hitbox
-            Log.d("update","Obj hitbox size: "+obj.hitbox.size*obj.hitbox[0].size)
-            for(x in 0 until hitbox.size)
+            if(obj!=null)
             {
-                for(y in 0 until hitbox[x].size)
+                val gfx=obj.gfx
+                Log.d("update","Obj hitbox size: "+obj.hitbox.size*obj.hitbox[0].size)
+                for(x in 0 until gfx.width)
                 {
-                    if(hitbox[x][y])
+                    for(y in 0 until gfx.height)
                     {
-                        Log.d("update","true")
-                        renderedImage[x+obj.x, y+obj.y]=Color.WHITE
+                            Log.d("update","true")
+                            renderedImage[x+obj.x, y+obj.y]=gfx[x, y]
                     }
                 }
             }
         }
+        imgv.setImageBitmap(renderedImage)
     }
 }
