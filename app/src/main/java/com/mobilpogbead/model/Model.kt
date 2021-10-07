@@ -9,12 +9,27 @@ import com.mobilpogbead.entity.EntityFactory
 class Model(private val entityFactory:EntityFactory)
 {
     val objects=ArrayList<Entity?>()
-
     init
     {
-        objects.add(entityFactory.createEntity<Enemy>(0,0))
-        objects.add(entityFactory.createEntity<Enemy>(50,0))
-        objects.add(entityFactory.createEntity<Barricade>(100,0))
+        var ref=entityFactory.createEntity<Enemy>(0,0)
+        if(ref!=null && ref.gfx!=null)
+        {
+            var shifty=0
+            for(i in 0 until 5)
+            {
+                var shiftx=0
+                shifty+=ref.getCurrGfx().height+15
+                for(k in 0 until 8)
+                {
+                    var newEnemy=entityFactory.createEntity<Enemy>(shiftx,shifty)
+                    if(newEnemy != null)
+                    {
+                        objects.add(newEnemy)
+                        shiftx=newEnemy.x+newEnemy.getCurrGfx().width+15
+                    }
+                }
+            }
+        }
     }
     fun progress()
     {

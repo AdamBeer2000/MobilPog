@@ -6,8 +6,9 @@ import android.support.v4.os.IResultReceiver
 import android.util.Log
 import androidx.core.graphics.get
 import androidx.core.graphics.set
+import java.util.ArrayList
 
-class EntityFactory(val resources:HashMap<String,Bitmap>)
+class EntityFactory(val resources:HashMap<String,ArrayList<Bitmap>>)
 {
     fun bitmapToHitbox(bit:Bitmap):Array<BooleanArray>
     {
@@ -40,10 +41,10 @@ class EntityFactory(val resources:HashMap<String,Bitmap>)
         {
             when (T::class)
             {
-                Barricade::class->return Barricade(x,y,bitmap,bitmapToHitbox(bitmap))
-                Bullet::class->return Bullet(x,y,bitmap,bitmapToHitbox(bitmap))
-                Enemy::class->return Enemy(x,y,bitmap,bitmapToHitbox(bitmap))
-                Player::class->return Player(x,y,bitmap,bitmapToHitbox(bitmap))
+                Barricade::class->return Barricade(x,y,bitmap,bitmapToHitbox(bitmap[0]))
+                Bullet::class->return Bullet(x,y,bitmap,bitmapToHitbox(bitmap[0]))
+                Enemy::class->return Enemy(x,y,bitmap,bitmapToHitbox(bitmap[0]))
+                Player::class->return Player(x,y,bitmap,bitmapToHitbox(bitmap[0]))
                 else->return null
             }
         }

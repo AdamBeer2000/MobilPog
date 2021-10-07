@@ -4,15 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000"
-    tools:context=".MainActivity">
+    tools:context=".GameActivity">
 
-    <FrameLayout
-        android:id="@+id/MainLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="1dp">
-
-    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

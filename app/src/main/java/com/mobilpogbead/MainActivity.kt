@@ -2,16 +2,18 @@ package com.mobilpogbead
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Color
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.annotation.UiThread
-import androidx.core.graphics.set
+import androidx.annotation.RequiresApi
+import androidx.constraintlayout.widget.ConstraintSet
 import com.mobilpogbead.controller.Controller
 import com.mobilpogbead.entity.EntityFactory
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 class MainActivity : AppCompatActivity() {
@@ -19,24 +21,34 @@ class MainActivity : AppCompatActivity() {
     lateinit var controller:Controller
     lateinit var mTimer:Timer
     lateinit var img:ImageView
+    lateinit var MainLayout: ConstraintSet.Layout
 
-    private fun loadResources():HashMap<String, Bitmap>
+    private fun loadResources():HashMap<String, ArrayList<Bitmap>>
     {
-        var res=HashMap<String, Bitmap>()
-        val defaultEnemyGraphics= BitmapFactory.decodeResource(resources, R.drawable.default_enemy)
-        val barrierGraphics= BitmapFactory.decodeResource(resources, R.drawable.barrier)
-        res["Enemy"]=defaultEnemyGraphics
-        res["Barricade"]=barrierGraphics
+        var res=HashMap<String, ArrayList<Bitmap>>()
+        val bug1as= BitmapFactory.decodeResource(resources, R.drawable.bug1as)
+        val bug1bs= BitmapFactory.decodeResource(resources, R.drawable.bug1bs)
+        val bug1=ArrayList<Bitmap>()
+        bug1.add(bug1as)
+        bug1.add(bug1bs)
+
+        res["Enemy"]=bug1
 
         return res
     }
 
+    @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         controller=Controller(this, EntityFactory(loadResources()))
-        img=findViewById<ImageView>(R.id.battlegound)
+        img= ImageView(this)
+        img.maxWidth=windowManager.defaultDisplay.width
+        img.maxHeight=windowManager.defaultDisplay.height
+
+        addContentView(img,ViewGroup.LayoutParams(img.maxWidth,img.maxHeight))
 
         controller.view.bind(img)
     }
@@ -57,7 +69,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 )
             }
-        }, 0, 1000)
+        }, 0, 120)
     }
 
 

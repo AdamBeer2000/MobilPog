@@ -1,59 +1,46 @@
 package com.mobilpogbead.view
 
 import android.graphics.Bitmap
-import android.graphics.Color
+import android.graphics.Canvas
 import android.util.Log
 import android.widget.ImageView
 import androidx.core.graphics.get
 import androidx.core.graphics.set
-import com.mobilpogbead.entity.Enemy
-import com.mobilpogbead.entity.Entity
+
 import com.mobilpogbead.model.Model
+import kotlin.system.measureTimeMillis
 
 class View(private val model:Model)
 {
-    var renderedImage = Bitmap.createBitmap(500, 500, Bitmap.Config.ARGB_8888)
-        private set
-    lateinit var imgv:ImageView
-    init
-    {
+    private  var height:Int=0
+    private  var width:Int=0
 
-    }
+    lateinit var imgv:ImageView
+
+    lateinit var background:Bitmap
 
     fun bind(imgv: ImageView)
     {
         this.imgv=imgv
-        imgv.setImageBitmap(renderedImage)
+        height=imgv.maxHeight
+        width=imgv.maxWidth
+        imgv.setImageBitmap(Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888))
     }
 
     fun update()
     {
+        val elapsed = measureTimeMillis {
+            val renderedImage = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+            val canvas = Canvas(renderedImage)
 
-        Log.d("update","Update starts")
-        Log.d("update","Obj num: "+model.objects.size)
-        for(x in 0 until 500)
-        {
-            for(y in 0 until 500)
-            {
-                renderedImage[x, y] = Color.BLACK
-            }
-        }
-        for (obj in model.objects)
-        {
-            if(obj!=null)
-            {
-                val gfx=obj.gfx
-                Log.d("update","Obj hitbox size: "+obj.hitbox.size*obj.hitbox[0].size)
-                for(x in 0 until gfx.width)
-                {
-                    for(y in 0 until gfx.height)
-                    {
-                            Log.d("update","true")
-                            renderedImage[x+obj.x, y+obj.y]=gfx[x, y]
-                    }
+            for (obj in model.objects) {
+                if (obj != null) {
+                    canvas.drawBitmap(obj.getCurrGfx(), obj.x.toFloat(), obj.y.toFloat(), null)
                 }
             }
+            imgv.setImageBitmap(renderedImage)
         }
-        imgv.setImageBitmap(renderedImage)
+
+        Log.d("Update","Time:$elapsed s")
     }
 }
