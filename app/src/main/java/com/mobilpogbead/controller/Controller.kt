@@ -29,21 +29,6 @@ class Controller(private var context: Context, entityFactory: EntityFactory, bou
 
     }
 
-    fun start()
-    {
-        //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-
-        view.update()
-        //todo késleltetés
-        //todo szenzor model.()
-
-        for(k in 0 until 10)
-        {
-            Log.d("controller","refresh")
-            model.progress()
-        }
-    }
-
     fun setUpSensor()
     {
         sensorManager = this.context.getSystemService(SENSOR_SERVICE) as SensorManager
@@ -56,7 +41,6 @@ class Controller(private var context: Context, entityFactory: EntityFactory, bou
 
         if(gyroSensor == null) {
             Log.e("SENSOR", "Gyro sensor not available.");
-            Log.d("SENSOR", "Gyro sensor not available.");
             exitProcess(420); // Close app
         }
 
@@ -91,5 +75,5 @@ class Controller(private var context: Context, entityFactory: EntityFactory, bou
         val result = arrayOf(gyro_x, gyro_y, gyro_z)
         return result
     }
-
+    
 }
