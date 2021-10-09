@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
             {
                 runOnUiThread(
                     Runnable {
-                        //Log.d("onstart","update")
+                        Log.d("onstart","update")
                         controller.model.progress()
                         controller.view.update()
                     }
