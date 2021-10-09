@@ -23,6 +23,10 @@ class Controller(private var context: Context,entityFactory: EntityFactory)
     val model=Model(entityFactory)
     val view=View(model)
 
+    var gyro_x: Any = 0.0
+    var gyro_y: Any = 0.0
+    var gyro_z: Any = 0.0
+
     init
     {
 
@@ -31,7 +35,7 @@ class Controller(private var context: Context,entityFactory: EntityFactory)
     fun start()
     {
         //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        //this.setUpSensor()
+
         view.update()
         //todo késleltetés
         //todo szenzor model.()
@@ -51,7 +55,7 @@ class Controller(private var context: Context,entityFactory: EntityFactory)
         sensorManager.registerListener(gyroSensorListener,
             gyroSensor, SensorManager.SENSOR_DELAY_FASTEST);
 
-        Log.d("start","SETUPSENSOR 1")
+        Log.d("SETUP-SENSOR","STARTED")
 
         if(gyroSensor == null) {
             Log.e("SENSOR", "Gyro sensor not available.");
@@ -59,7 +63,7 @@ class Controller(private var context: Context,entityFactory: EntityFactory)
             exitProcess(420); // Close app
         }
 
-        Log.d("start","SETUPSENSOR 2")
+        Log.d("SETUP-SENSOR","SUCCESSFUL")
     }
 
     var gyroSensorListener: SensorEventListener = object : SensorEventListener {
@@ -68,15 +72,27 @@ class Controller(private var context: Context,entityFactory: EntityFactory)
             {
                 val rightLeft = p0.values[0]
                 val upDown = p0.values[1]
+                val frontBehind = p0.values[2]
 
                 Log.d("SENSOR ","x: $rightLeft")
                 Log.d("SENSOR ","y: $upDown")
+                Log.d("SENSOR ","z: $frontBehind")
+
+                gyro_x = p0.values[0]
+                gyro_y = p0.values[1]
+                gyro_z = p0.values[2]
             }
         }
 
         override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
-            Log.d("SENSOR: ", "ACCURACY")
+            Log.d("SENSOR: ", "ACCURACY CHANGED")
         }
+    }
+
+    fun getGyroArray(): Array<Any>
+    {
+        val result = arrayOf(gyro_x, gyro_y, gyro_z)
+        return result
     }
 
 }

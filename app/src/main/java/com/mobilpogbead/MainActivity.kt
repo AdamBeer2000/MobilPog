@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
 
         controller=Controller(this, EntityFactory(loadResources()))
 
-        //controller.setUpSensor();
+        controller.setUpSensor();
 
         img= ImageView(this)
         img.maxWidth=windowManager.defaultDisplay.width
@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
             {
                 runOnUiThread(
                     Runnable {
-                        Log.d("onstart","update")
+                        //Log.d("onstart","update")
                         controller.model.progress()
                         controller.view.update()
                     }
