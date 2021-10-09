@@ -6,6 +6,7 @@ import android.support.v4.os.IResultReceiver
 import android.util.Log
 import androidx.core.graphics.get
 import androidx.core.graphics.set
+import java.lang.Exception
 import java.util.ArrayList
 
 class EntityFactory(val resources:HashMap<String,ArrayList<Bitmap>>)
@@ -24,7 +25,7 @@ class EntityFactory(val resources:HashMap<String,ArrayList<Bitmap>>)
         return hitbox
     }
 
-    inline fun<reified T : Entity>createEntity(x:Int,y:Int):Entity?
+    inline fun<reified T : Entity>createEntity(x:Int,y:Int):Entity
     {
         var str:String
         when (T::class)
@@ -33,7 +34,7 @@ class EntityFactory(val resources:HashMap<String,ArrayList<Bitmap>>)
             Bullet::class->str="Bullet"
             Enemy::class->str="Enemy"
             Player::class->str="Player"
-            else-> return null
+            else->throw Exception("NO resource found")
         }
         val bitmap=resources[str]
 
@@ -45,11 +46,11 @@ class EntityFactory(val resources:HashMap<String,ArrayList<Bitmap>>)
                 Bullet::class->return Bullet(x,y,bitmap,bitmapToHitbox(bitmap[0]))
                 Enemy::class->return Enemy(x,y,bitmap,bitmapToHitbox(bitmap[0]))
                 Player::class->return Player(x,y,bitmap,bitmapToHitbox(bitmap[0]))
-                else->return null
+                else->throw Exception("NO resource found")
             }
         }
 
         Log.d("EntityFactory","Entity not found")
-        return null
+        throw Exception("NO resource found")
     }
 }
