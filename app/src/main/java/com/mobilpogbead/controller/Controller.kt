@@ -43,7 +43,7 @@ class Controller(private var context: Context,entityFactory: EntityFactory)
         }
     }
 
-    private fun setUpSensor()
+    fun setUpSensor()
     {
         sensorManager = this.context.getSystemService(SENSOR_SERVICE) as SensorManager
         val gyroSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)
@@ -69,8 +69,8 @@ class Controller(private var context: Context,entityFactory: EntityFactory)
                 val rightLeft = p0.values[0]
                 val upDown = p0.values[1]
 
-                Log.d("SENSOR: ","x: $rightLeft")
-                Log.d("SENSOR: ","y: $upDown")
+                Log.d("SENSOR ","x: $rightLeft")
+                Log.d("SENSOR ","y: $upDown")
             }
         }
 

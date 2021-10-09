@@ -6,7 +6,10 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.view.WindowManager
 import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintSet
@@ -40,10 +43,17 @@ class MainActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?)
     {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        this.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         controller=Controller(this, EntityFactory(loadResources()))
+
+        //controller.setUpSensor();
+
         img= ImageView(this)
         img.maxWidth=windowManager.defaultDisplay.width
         img.maxHeight=windowManager.defaultDisplay.height
@@ -51,6 +61,7 @@ class MainActivity : AppCompatActivity() {
         addContentView(img,ViewGroup.LayoutParams(img.maxWidth,img.maxHeight))
 
         controller.view.bind(img)
+
     }
 
     override fun onStart()
@@ -63,7 +74,7 @@ class MainActivity : AppCompatActivity() {
             {
                 runOnUiThread(
                     Runnable {
-                        Log.d("onstart","update")
+                        //Log.d("onstart","update")
                         controller.model.progress()
                         controller.view.update()
                     }
@@ -72,5 +83,16 @@ class MainActivity : AppCompatActivity() {
         }, 0, 120)
     }
 
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (hasFocus) {
+            window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    or View.SYSTEM_UI_FLAG_FULLSCREEN
+                    or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
+        }
+    }
 
 }
