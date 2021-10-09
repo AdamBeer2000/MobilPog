@@ -20,9 +20,9 @@ class Controller(private var context: Context, entityFactory: EntityFactory, bou
     val model=Model(entityFactory,boundaries)
     val view=View(model)
 
-    var gyro_x: Any = 0.0
-    var gyro_y: Any = 0.0
-    var gyro_z: Any = 0.0
+    var gyro_x: Double = 0.0
+    var gyro_y: Double = 0.0
+    var gyro_z: Double = 0.0
 
     init
     {
@@ -32,8 +32,8 @@ class Controller(private var context: Context, entityFactory: EntityFactory, bou
     fun setUpSensor()
     {
         sensorManager = this.context.getSystemService(SENSOR_SERVICE) as SensorManager
-        val gyroSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE_UNCALIBRATED)//TYPE_GYROSCOPE
-        sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE_UNCALIBRATED)//TYPE_GYROSCOPE
+        val gyroSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)//TYPE_GYROSCOPE_UNCALIBRATED
+        sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)//TYPE_GYROSCOPE_UNCALIBRATED
         sensorManager.registerListener(gyroSensorListener,
             gyroSensor, SensorManager.SENSOR_DELAY_FASTEST);
 
@@ -49,7 +49,7 @@ class Controller(private var context: Context, entityFactory: EntityFactory, bou
 
     var gyroSensorListener: SensorEventListener = object : SensorEventListener {
         override fun onSensorChanged(p0: SensorEvent?) {
-            if(p0?.sensor?.type == Sensor.TYPE_GYROSCOPE_UNCALIBRATED)//TYPE_GYROSCOPE
+            if(p0?.sensor?.type == Sensor.TYPE_GYROSCOPE)//TYPE_GYROSCOPE_UNCALIBRATED
             {
                 val rightLeft = p0.values[0]
                 val upDown = p0.values[1]
@@ -59,9 +59,9 @@ class Controller(private var context: Context, entityFactory: EntityFactory, bou
                 Log.d("SENSOR ","y: $upDown")
                 Log.d("SENSOR ","z: $frontBehind")
 
-                gyro_x = p0.values[0]
-                gyro_y = p0.values[1]
-                gyro_z = p0.values[2]
+                gyro_x = p0.values[0].toDouble()
+                gyro_y = p0.values[1].toDouble()
+                gyro_z = p0.values[2].toDouble()
             }
         }
 
@@ -70,10 +70,22 @@ class Controller(private var context: Context, entityFactory: EntityFactory, bou
         }
     }
 
-    fun getGyroArray(): Array<Any>
+    fun getGyroArray(): Array<Double>
     {
         val result = arrayOf(gyro_x, gyro_y, gyro_z)
         return result
     }
+
+    fun move(){
+        val y: Double = getGyroArray()[1];
+
+        if(y < 0.0){
+            model.player.moveLeft()
+        }
+        else if(y > 0.0){
+            model.player.moveRight()
+        }
+    }
+
     
 }

@@ -102,6 +102,7 @@ class MainActivity : AppCompatActivity() {
                         try
                         {
                             controller.model.progress()
+                            controller.move()
                             controller.view.update()
                             controller.model.checkHits()
                             controller.model.cleanOutOfBounsObjects()
