@@ -50,8 +50,8 @@ class Controller(private var context: Context,entityFactory: EntityFactory)
     fun setUpSensor()
     {
         sensorManager = this.context.getSystemService(SENSOR_SERVICE) as SensorManager
-        val gyroSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)
-        sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)
+        val gyroSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE_UNCALIBRATED)//TYPE_GYROSCOPE
+        sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE_UNCALIBRATED)//TYPE_GYROSCOPE
         sensorManager.registerListener(gyroSensorListener,
             gyroSensor, SensorManager.SENSOR_DELAY_FASTEST);
 
@@ -68,7 +68,7 @@ class Controller(private var context: Context,entityFactory: EntityFactory)
 
     var gyroSensorListener: SensorEventListener = object : SensorEventListener {
         override fun onSensorChanged(p0: SensorEvent?) {
-            if(p0?.sensor?.type == Sensor.TYPE_GYROSCOPE)
+            if(p0?.sensor?.type == Sensor.TYPE_GYROSCOPE_UNCALIBRATED)//TYPE_GYROSCOPE
             {
                 val rightLeft = p0.values[0]
                 val upDown = p0.values[1]
