@@ -41,6 +41,6 @@ class View(private val model:Model)
             imgv.setImageBitmap(renderedImage)
         }
 
-        Log.d("Update","Time:$elapsed s")
+        //Log.d("Update","Time:$elapsed s")
     }
 }

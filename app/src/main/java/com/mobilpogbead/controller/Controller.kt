@@ -20,6 +20,10 @@ class Controller(private var context: Context, entityFactory: EntityFactory, bou
     val model=Model(entityFactory,boundaries)
     val view=View(model)
 
+    var gyro_x: Any = 0.0
+    var gyro_y: Any = 0.0
+    var gyro_z: Any = 0.0
+
     init
     {
 
@@ -28,7 +32,7 @@ class Controller(private var context: Context, entityFactory: EntityFactory, bou
     fun start()
     {
         //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        //this.setUpSensor()
+
         view.update()
         //todo késleltetés
         //todo szenzor model.()
@@ -40,15 +44,15 @@ class Controller(private var context: Context, entityFactory: EntityFactory, bou
         }
     }
 
-    private fun setUpSensor()
+    fun setUpSensor()
     {
         sensorManager = this.context.getSystemService(SENSOR_SERVICE) as SensorManager
-        val gyroSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)
-        sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)
+        val gyroSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE_UNCALIBRATED)//TYPE_GYROSCOPE
+        sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE_UNCALIBRATED)//TYPE_GYROSCOPE
         sensorManager.registerListener(gyroSensorListener,
             gyroSensor, SensorManager.SENSOR_DELAY_FASTEST);
 
-        Log.d("start","SETUPSENSOR 1")
+        Log.d("SETUP-SENSOR","STARTED")
 
         if(gyroSensor == null) {
             Log.e("SENSOR", "Gyro sensor not available.");
@@ -56,24 +60,36 @@ class Controller(private var context: Context, entityFactory: EntityFactory, bou
             exitProcess(420); // Close app
         }
 
-        Log.d("start","SETUPSENSOR 2")
+        Log.d("SETUP-SENSOR","SUCCESSFUL")
     }
 
     var gyroSensorListener: SensorEventListener = object : SensorEventListener {
         override fun onSensorChanged(p0: SensorEvent?) {
-            if(p0?.sensor?.type == Sensor.TYPE_GYROSCOPE)
+            if(p0?.sensor?.type == Sensor.TYPE_GYROSCOPE_UNCALIBRATED)//TYPE_GYROSCOPE
             {
                 val rightLeft = p0.values[0]
                 val upDown = p0.values[1]
+                val frontBehind = p0.values[2]
 
-                Log.d("SENSOR: ","x: $rightLeft")
-                Log.d("SENSOR: ","y: $upDown")
+                Log.d("SENSOR ","x: $rightLeft")
+                Log.d("SENSOR ","y: $upDown")
+                Log.d("SENSOR ","z: $frontBehind")
+
+                gyro_x = p0.values[0]
+                gyro_y = p0.values[1]
+                gyro_z = p0.values[2]
             }
         }
 
         override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
-            Log.d("SENSOR: ", "ACCURACY")
+            Log.d("SENSOR: ", "ACCURACY CHANGED")
         }
+    }
+
+    fun getGyroArray(): Array<Any>
+    {
+        val result = arrayOf(gyro_x, gyro_y, gyro_z)
+        return result
     }
 
 }

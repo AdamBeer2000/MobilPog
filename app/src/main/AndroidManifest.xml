@@ -2,11 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mobilpogbead">
 
-    <uses-feature
-        android:name="android.hardware.sensor.proximity"
-        android:required="true" />
+    <!--<uses-permission android:name="android.permission.BODY_SENSORS"/>-->
+
     <uses-feature
         android:name="android.hardware.sensor.gyroscope"
+        android:required="true" />
+
+    <uses-feature
+        android:name="android.hardware.sensor.gyroscope_uncalibrated"
         android:required="true" />
 
     <application
@@ -16,9 +19,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MobilpogBead">
-        <activity
+        <!--<activity
             android:name=".GameActivity"
-            android:exported="true" />
+            android:exported="true" />-->
         <activity
             android:name=".MainActivity"
             android:exported="true">
