@@ -21,17 +21,34 @@ class Controller(private var context: Context,var boundaries:Boundaries, pointco
     val model=Model(boundaries)
     val view=View(model,pointcounter)
 
-    var gyro_x: Double = 0.0
-    var gyro_y: Double = 0.0
-    var gyro_z: Double = 0.0
+    //var gyro_x: Double = 0.0
+    //var gyro_y: Double = 0.0
+    //var gyro_z: Double = 0.0
+
+    private var mValuesMagnet = FloatArray(3)
+    private var mValuesAccel = FloatArray(3)
+    private var mValuesOrientation = FloatArray(3)
+
+    private var mRotationMatrix = FloatArray(9)
 
     fun setUpSensor()
     {
         sensorManager = this.context.getSystemService(SENSOR_SERVICE) as SensorManager
         val gyroSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)//TYPE_GYROSCOPE_UNCALIBRATED
-        sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)//TYPE_GYROSCOPE_UNCALIBRATED
+
+        val magneticSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)
+        val accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+
+        //sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)//TYPE_GYROSCOPE_UNCALIBRATED
+
+        //sensorManager.registerListener(gyroSensorListener,
+          //  gyroSensor, SensorManager.SENSOR_DELAY_FASTEST);
+
         sensorManager.registerListener(gyroSensorListener,
-            gyroSensor, SensorManager.SENSOR_DELAY_FASTEST);
+            magneticSensor, SensorManager.SENSOR_DELAY_FASTEST);
+        sensorManager.registerListener(gyroSensorListener,
+            accelerometerSensor, SensorManager.SENSOR_DELAY_FASTEST);
+
 
         Log.d("SETUP-SENSOR","STARTED")
 
@@ -45,7 +62,7 @@ class Controller(private var context: Context,var boundaries:Boundaries, pointco
 
     var gyroSensorListener: SensorEventListener = object : SensorEventListener {
         override fun onSensorChanged(p0: SensorEvent?) {
-            if(p0?.sensor?.type == Sensor.TYPE_GYROSCOPE)//TYPE_GYROSCOPE_UNCALIBRATED
+            /*if(p0?.sensor?.type == Sensor.TYPE_GYROSCOPE)//TYPE_GYROSCOPE_UNCALIBRATED
             {
                 val rightLeft = p0.values[0]
                 val upDown = p0.values[1]
@@ -58,30 +75,49 @@ class Controller(private var context: Context,var boundaries:Boundaries, pointco
                 gyro_x = p0.values[0].toDouble()
                 gyro_y = p0.values[1].toDouble()
                 gyro_z = p0.values[2].toDouble()
+            }*/
+
+            when (p0?.sensor?.type) {
+                Sensor.TYPE_ACCELEROMETER -> {
+                    //System.arraycopy(p0.values, 0, mValuesAccel, 0, 3)
+                    mValuesAccel[0] = p0.values[0]
+                    mValuesAccel[1] = p0.values[1]
+                    mValuesAccel[2] = p0.values[2]
+                }
+                Sensor.TYPE_MAGNETIC_FIELD -> {
+                    //System.arraycopy(p0.values, 0, mValuesMagnet, 0, 3)
+                    mValuesMagnet[0] = p0.values[0]
+                    mValuesMagnet[1] = p0.values[1]
+                    mValuesMagnet[2] = p0.values[2]
+                }
             }
+            SensorManager.getRotationMatrix(mRotationMatrix, null, mValuesAccel, mValuesMagnet);
+            SensorManager.getOrientation(mRotationMatrix, mValuesOrientation);
         }
 
         override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
             Log.d("SENSOR: ", "ACCURACY CHANGED")
         }
     }
-    fun getGyroArray(): Array<Double>
+
+    fun logger()
     {
-        val result = arrayOf(gyro_x, gyro_y, gyro_z)
-        return result
+
+        for (i in 0..8)
+        Log.d("ROTATION: ",  "${i}. value: ${mRotationMatrix[i]}")
     }
+
     fun move()
     {
-        val y: Double = getGyroArray()[1];
+        val y: Float = mRotationMatrix[6];
         if(boundaries.yMin<=model.player.x-1&&model.player.x+model.player.width+1<=boundaries.yMax)
         {
-            if(y < 0.0){
+            if(y > 0.0){
                 model.player.moveLeft()
             }
-            else if(y > 0.0){
+            else if(y < 0.0){
                 model.player.moveRight()
             }
         }
     }
-
 }
