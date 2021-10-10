@@ -54,16 +54,6 @@ abstract class Entity (var x:Int, var y:Int, var gfx: ArrayList<Bitmap>, var hit
         return false
     }
 
-    open fun collision(x:Int,y:Int):Boolean
-    {
-        if(hitbox[y][x])
-        {
-            hit()
-            return true
-        }
-        return false
-    }
-
     fun moveRight()
     {
         shiftGfx()

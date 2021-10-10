@@ -4,9 +4,11 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.util.Log
 import androidx.core.graphics.get
+import com.mobilpogbead.entity.bullet.Bullet
+import com.mobilpogbead.entity.bullet.EnemyBullet
+import com.mobilpogbead.entity.bullet.PlayerBullet
 import com.mobilpogbead.entity.enemies.Bug
 import com.mobilpogbead.entity.enemies.Chonker
-import com.mobilpogbead.entity.enemies.Enemy
 import com.mobilpogbead.entity.enemies.Squid
 import java.lang.Exception
 import java.util.ArrayList
@@ -65,7 +67,8 @@ class SingletonEntityFactory private constructor()
         when (T::class)
         {
             Barricade::class->str="Barricade"
-            Bullet::class->str="Bullet"
+            EnemyBullet::class->str="Bullet"
+            PlayerBullet::class->str="Bullet"
             Squid::class->str="Squid"
             Chonker::class->str="Chonker"
             Bug::class->str="Bug"
@@ -80,7 +83,8 @@ class SingletonEntityFactory private constructor()
             when (T::class)
             {
                 Barricade::class->return Barricade(x,y,bitmap,bitmapToHitbox(bitmap[0]))
-                Bullet::class->return Bullet(x,y,bitmap,bitmapToHitbox(bitmap[0]))
+                EnemyBullet::class->return EnemyBullet(x,y,bitmap,bitmapToHitbox(bitmap[0]))
+                PlayerBullet::class->return PlayerBullet(x,y,bitmap,bitmapToHitbox(bitmap[0]))
                 Squid::class->return Squid(x,y,bitmap,bitmapToHitbox(bitmap[0]))
                 Chonker::class->return Chonker(x,y,bitmap,bitmapToHitbox(bitmap[0]))
                 Bug::class->return Bug(x,y,bitmap,bitmapToHitbox(bitmap[0]))

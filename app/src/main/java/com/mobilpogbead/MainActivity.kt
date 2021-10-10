@@ -21,6 +21,8 @@ import java.util.*
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
+import kotlin.system.measureNanoTime
+import kotlin.system.measureTimeMillis
 
 class MainActivity : AppCompatActivity() {
 
@@ -83,7 +85,7 @@ class MainActivity : AppCompatActivity() {
             pointCountTextView
         )
 
-        controller.setUpSensor();
+        //controller.setUpSensor();
 
         img= ImageView(this)
         img.maxWidth=windowManager.defaultDisplay.width
@@ -106,27 +108,40 @@ class MainActivity : AppCompatActivity() {
                 runOnUiThread(
                     Runnable {
                         Log.d("onstart","update")
-                        lock.lock()
+
                         try
                         {
-                            controller.model.progress()
-                            controller.move()
-                            controller.view.update()
-                            controller.model.checkHits()
-                            controller.model.cleanOutOfBounsObjects()
+                            var progress= measureNanoTime {
+                                controller.model.progress()
+                            }
+                            var move=measureNanoTime {
+                                controller.move()
+                            }
+                            var update=measureNanoTime {
+                                controller.view.update()
+                            }
+                            var checkHits=measureNanoTime {
+                                controller.model.checkHits()
+                            }
+                            var cleanOutOfBounsObjects=measureNanoTime {
+                                lock.lock()
+                                controller.model.cleanOutOfBounsBullets()
+                                lock.unlock()
+                            }
+                            Log.d("Stat","progress:$progress nano")
+                            Log.d("Stat","move:$move nano")
+                            Log.d("Stat","update:$update nano")
+                            Log.d("Stat","checkHits:$checkHits nano")
+                            Log.d("Stat","cleanOutOfBounsObjects:$cleanOutOfBounsObjects nano")
                         }
                         catch (e:Exception)
                         {
-
-                        }
-                        finally
-                        {
-                            lock.unlock()
+                            Log.e("Fail",e.message.toString())
                         }
                     }
                 )
             }
-        }, 0, 100)
+        }, 0, 120)
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {

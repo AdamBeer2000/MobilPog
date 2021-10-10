@@ -10,6 +10,6 @@ class Player(x: Int, y: Int, gfx: ArrayList<Bitmap>, hitbox:Array<BooleanArray>)
 
     override fun hit()
     {
-        this.hp = 0
+        this.hp -=1
     }
 }

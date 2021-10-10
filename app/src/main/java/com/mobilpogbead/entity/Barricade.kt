@@ -8,10 +8,17 @@ class Barricade(x: Int, y: Int, gfx: ArrayList<Bitmap>, hitbox:Array<BooleanArra
     override var speed: Int=0
     override var hp: Int=Int.MAX_VALUE
 
-    override fun hit() {
+    override fun hit()
+    {
         this.hp = 0
     }
 
+    override fun collision(other: Entity): Boolean
+    {
+        return super.collision(other)
+    }
+
+    /*
     override fun collision(x:Int,y:Int):Boolean
     {
         if(super.collision(x, y))
@@ -21,6 +28,5 @@ class Barricade(x: Int, y: Int, gfx: ArrayList<Bitmap>, hitbox:Array<BooleanArra
         }
         return false
     }
-
-
+    */
 }

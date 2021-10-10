@@ -3,12 +3,18 @@ import android.util.Log
 import com.mobilpogbead.entity.*
 import com.mobilpogbead.entity.enemies.*
 import com.mobilpogbead.entity.SingletonEntityFactory
+import com.mobilpogbead.entity.bullet.Bullet
+import com.mobilpogbead.entity.bullet.EnemyBullet
+import com.mobilpogbead.entity.bullet.PlayerBullet
+import java.lang.Math.abs
+import java.util.*
+import kotlin.collections.ArrayList
 
 class Model(val boundaries:Boundaries)
 {
     private val entityFactory=SingletonEntityFactory.getInstance()
 
-    val objects=ArrayList<Entity?>()
+    val objects=ArrayList<Entity>()
 
     val enemys=ArrayList<Enemy>()
     val bullets=ArrayList<Bullet>()
@@ -45,17 +51,39 @@ class Model(val boundaries:Boundaries)
     }
     var right:Boolean=true
     var left:Boolean=false
+
+    fun enemyShoot()
+    {
+        if(enemyBullets.count()<=3&&!player.isDead())
+        {
+            val enemy=enemys[abs(Random().nextInt())%enemys.size]
+            val bullet: EnemyBullet =entityFactory.createEntity<EnemyBullet>(enemy.x,enemy.y) as EnemyBullet
+            objects.add(bullet)
+            enemyBullets.add(bullet)
+            bullets.add(bullet)
+        }
+    }
+
     fun shoot()
     {
-        if(playerBullets.count()<=3)
+        if(playerBullets.count()<=2&&!player.isDead())
         {
-            val bullet:Bullet=entityFactory.createEntity<Bullet>(player.x+25,player.y-25) as Bullet
+            val bullet: PlayerBullet =entityFactory.createEntity<PlayerBullet>(player.x+25,player.y-25) as PlayerBullet
             objects.add(bullet)
-
             playerBullets.add(bullet)
             bullets.add(bullet)
         }
     }
+
+    fun winCheckh():Boolean
+    {
+        return enemys.size==0
+    }
+    fun failCheckh():Boolean
+    {
+        return player.isDead()
+    }
+
     fun progress()
     {
         for(Bullet in playerBullets)
@@ -67,12 +95,13 @@ class Model(val boundaries:Boundaries)
             Bullet.moveDown()
         }
         shoot()
+        enemyShoot()
         if(right)
         {
             for(obj in enemys)
             {
                 obj.moveRight()
-                if(obj.x>=boundaries.xMax)
+                if(obj.x+obj.width>=boundaries.xMax)
                 {
                     left=true
                     right=false
@@ -88,7 +117,6 @@ class Model(val boundaries:Boundaries)
             }
             return
         }
-
         if(left)
         {
             for(obj in enemys)
@@ -113,12 +141,16 @@ class Model(val boundaries:Boundaries)
     }
     fun checkHits()
     {
-        for(bullet in bullets)
+        for(bullet in playerBullets)
         {
             for(enenmy in enemys)
             {
                 if(bullet.collision(enenmy)) Log.d("Hit","Hit")
             }
+        }
+        for(bullet in enemyBullets)
+        {
+            if(bullet.collision(player)) Log.d("Hit","Hit")
         }
         clearDead()
     }
@@ -126,16 +158,16 @@ class Model(val boundaries:Boundaries)
     {
         for(obj in objects)
         {
-            if(obj==null)
-            {
-                safeRemove(obj)
-            }
-            else if(obj.isDead())
+            if(obj.isDead())
             {
                 if(obj is Enemy)pointCounter+= (obj as Enemy).point
                 Log.d("Point system","Points : $pointCounter")
                 safeRemove(obj)
             }
+        }
+        if(player.isDead())
+        {
+            objects.remove(player)
         }
     }
     fun safeRemove(obj:Entity?)
@@ -145,16 +177,13 @@ class Model(val boundaries:Boundaries)
         playerBullets.remove(obj)
         enemyBullets.remove(obj)
     }
-    fun cleanOutOfBounsObjects()
+
+    fun cleanOutOfBounsBullets()
     {
-        for(obj in objects)
+        for(obj in bullets)
         {
-            if(obj==null)
-            {
-                objects.remove(obj)
-            }
-            else if(obj.x>boundaries.xMax+10||obj.x<boundaries.xMin-10
-                ||obj.y>boundaries.yMax+10||obj.y<boundaries.yMin-10)
+            if(obj.x>boundaries.xMax+5||obj.x<boundaries.xMin-5
+                ||obj.y>boundaries.yMax+5||obj.y<boundaries.yMin-5)
             {
                 safeRemove(obj)
             }
