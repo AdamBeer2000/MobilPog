@@ -41,7 +41,6 @@ class Model(val boundaries:Boundaries)
                 shiftx=newEnemy.x+newEnemy.getCurrGfx().width+15
             }
         }
-
         objects.add(player)
     }
     var right:Boolean=true
@@ -129,17 +128,17 @@ class Model(val boundaries:Boundaries)
         {
             if(obj==null)
             {
-                saveRemove(obj)
+                safeRemove(obj)
             }
             else if(obj.isDead())
             {
                 if(obj is Enemy)pointCounter+= (obj as Enemy).point
                 Log.d("Point system","Points : $pointCounter")
-                saveRemove(obj)
+                safeRemove(obj)
             }
         }
     }
-    fun saveRemove(obj:Entity?)
+    fun safeRemove(obj:Entity?)
     {
         objects.remove(obj)
         enemys.remove(obj)
@@ -157,7 +156,7 @@ class Model(val boundaries:Boundaries)
             else if(obj.x>boundaries.xMax+10||obj.x<boundaries.xMin-10
                 ||obj.y>boundaries.yMax+10||obj.y<boundaries.yMin-10)
             {
-                saveRemove(obj)
+                safeRemove(obj)
             }
         }
     }

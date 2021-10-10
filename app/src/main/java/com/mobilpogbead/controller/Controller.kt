@@ -14,7 +14,7 @@ import com.mobilpogbead.model.Model
 import com.mobilpogbead.view.View
 import kotlin.system.exitProcess
 
-class Controller(private var context: Context, boundaries:Boundaries, pointcounter:TextView)
+class Controller(private var context: Context,var boundaries:Boundaries, pointcounter:TextView)
 {
     private lateinit var sensorManager: SensorManager;
 
@@ -70,14 +70,17 @@ class Controller(private var context: Context, boundaries:Boundaries, pointcount
         val result = arrayOf(gyro_x, gyro_y, gyro_z)
         return result
     }
-    fun move(){
+    fun move()
+    {
         val y: Double = getGyroArray()[1];
-
-        if(y < 0.0){
-            model.player.moveLeft()
-        }
-        else if(y > 0.0){
-            model.player.moveRight()
+        if(boundaries.yMin<=model.player.x-1&&model.player.x+model.player.width+1<=boundaries.yMax)
+        {
+            if(y < 0.0){
+                model.player.moveLeft()
+            }
+            else if(y > 0.0){
+                model.player.moveRight()
+            }
         }
     }
 }
