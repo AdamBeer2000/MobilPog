@@ -15,4 +15,13 @@
         tools:layout_editor_absoluteY="1dp">
 
     </FrameLayout>
+
+    <TextView
+        android:id="@+id/pointCountTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textColor="@color/white"
+        tools:layout_editor_absoluteX="11dp"
+        tools:layout_editor_absoluteY="11dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

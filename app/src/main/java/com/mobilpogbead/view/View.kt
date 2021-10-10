@@ -4,13 +4,15 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.util.Log
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.graphics.get
 import androidx.core.graphics.set
 
 import com.mobilpogbead.model.Model
+import org.w3c.dom.Text
 import kotlin.system.measureTimeMillis
 
-class View(private val model:Model)
+class View(private val model:Model,private var pointCounter:TextView )
 {
     private  var height:Int=0
     private  var width:Int=0
@@ -29,17 +31,17 @@ class View(private val model:Model)
 
     fun update()
     {
-        val elapsed = measureTimeMillis {
-            val renderedImage = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-            val canvas = Canvas(renderedImage)
 
-            for (obj in model.objects) {
-                if (obj != null) {
-                    canvas.drawBitmap(obj.getCurrGfx(), obj.x.toFloat(), obj.y.toFloat(), null)
-                }
+        val renderedImage = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(renderedImage)
+
+        for (obj in model.objects) {
+            if (obj != null) {
+                canvas.drawBitmap(obj.getCurrGfx(), obj.x.toFloat(), obj.y.toFloat(), null)
             }
-            imgv.setImageBitmap(renderedImage)
         }
+        imgv.setImageBitmap(renderedImage)
+        pointCounter.text="Points:${model.pointCounter}"
 
         //Log.d("Update","Time:$elapsed s")
     }

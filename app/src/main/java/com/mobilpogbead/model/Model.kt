@@ -1,9 +1,13 @@
 package com.mobilpogbead.model
 import android.util.Log
 import com.mobilpogbead.entity.*
+import com.mobilpogbead.entity.enemies.*
+import com.mobilpogbead.entity.SingletonEntityFactory
 
-class Model(private val entityFactory:EntityFactory,val boundaries:Boundaries)
+class Model(val boundaries:Boundaries)
 {
+    private val entityFactory=SingletonEntityFactory.getInstance()
+
     val objects=ArrayList<Entity?>()
 
     val enemys=ArrayList<Enemy>()
@@ -13,18 +17,25 @@ class Model(private val entityFactory:EntityFactory,val boundaries:Boundaries)
 
     var player:Player=entityFactory.createEntity<Player>(300,boundaries.yMax-250) as Player
 
+    var pointCounter=0
+
     init
     {
-        var ref=entityFactory.createEntity<Enemy>(0,0)
+        var ref=entityFactory.createEntity<Bug>(0,0)
 
         var shifty=1
         for(i in 0 until 5)
         {
             var shiftx=1
             shifty+=ref.getCurrGfx().height+15
-            for(k in 0 until 8)
+            for(k in 0 until 11)
             {
-                var newEnemy=entityFactory.createEntity<Enemy>(shiftx,shifty)
+                var newEnemy:Enemy?=null
+
+                if(i==0) {newEnemy=entityFactory.createEntity<Squid>(shiftx,shifty) as Squid}
+                else if(i>0&&i<3) {newEnemy=entityFactory.createEntity<Bug>(shiftx,shifty) as Bug}
+                else{newEnemy=entityFactory.createEntity<Chonker>(shiftx,shifty) as Chonker}
+
                 objects.add(newEnemy)
                 enemys.add(newEnemy as Enemy)
                 shiftx=newEnemy.x+newEnemy.getCurrGfx().width+15
@@ -39,7 +50,7 @@ class Model(private val entityFactory:EntityFactory,val boundaries:Boundaries)
     {
         if(playerBullets.count()<=3)
         {
-            val bullet:Bullet=entityFactory.createEntity<Bullet>(player.x+25,player.y-20) as Bullet
+            val bullet:Bullet=entityFactory.createEntity<Bullet>(player.x+25,player.y-25) as Bullet
             objects.add(bullet)
 
             playerBullets.add(bullet)
@@ -122,6 +133,8 @@ class Model(private val entityFactory:EntityFactory,val boundaries:Boundaries)
             }
             else if(obj.isDead())
             {
+                if(obj is Enemy)pointCounter+= (obj as Enemy).point
+                Log.d("Point system","Points : $pointCounter")
                 saveRemove(obj)
             }
         }

@@ -1,33 +1,29 @@
 package com.mobilpogbead.controller
 
 import android.content.Context
-import android.content.Context.*
+import android.content.Context.SENSOR_SERVICE
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.util.Log
-import com.mobilpogbead.entity.EntityFactory
+import android.widget.TextView
+import com.mobilpogbead.entity.SingletonEntityFactory
 import com.mobilpogbead.model.Boundaries
 import com.mobilpogbead.model.Model
 import com.mobilpogbead.view.View
 import kotlin.system.exitProcess
 
-class Controller(private var context: Context, entityFactory: EntityFactory, boundaries:Boundaries)
+class Controller(private var context: Context, boundaries:Boundaries, pointcounter:TextView)
 {
     private lateinit var sensorManager: SensorManager;
 
-    val model=Model(entityFactory,boundaries)
-    val view=View(model)
+    val model=Model(boundaries)
+    val view=View(model,pointcounter)
 
     var gyro_x: Double = 0.0
     var gyro_y: Double = 0.0
     var gyro_z: Double = 0.0
-
-    init
-    {
-
-    }
 
     fun setUpSensor()
     {
@@ -69,13 +65,11 @@ class Controller(private var context: Context, entityFactory: EntityFactory, bou
             Log.d("SENSOR: ", "ACCURACY CHANGED")
         }
     }
-
     fun getGyroArray(): Array<Double>
     {
         val result = arrayOf(gyro_x, gyro_y, gyro_z)
         return result
     }
-
     fun move(){
         val y: Double = getGyroArray()[1];
 
@@ -86,6 +80,4 @@ class Controller(private var context: Context, entityFactory: EntityFactory, bou
             model.player.moveRight()
         }
     }
-
-    
 }

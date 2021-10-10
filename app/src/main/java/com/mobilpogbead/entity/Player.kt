@@ -8,7 +8,8 @@ class Player(x: Int, y: Int, gfx: ArrayList<Bitmap>, hitbox:Array<BooleanArray>)
     override var speed: Int = 20
     override var hp: Int = 3
 
-    override fun hit() {
+    override fun hit()
+    {
         this.hp = 0
     }
 }

@@ -11,10 +11,11 @@ import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintSet
 import com.mobilpogbead.controller.Controller
-import com.mobilpogbead.entity.EntityFactory
+import com.mobilpogbead.entity.SingletonEntityFactory
 import com.mobilpogbead.model.Boundaries
 import java.util.*
 import java.util.concurrent.locks.ReentrantLock
@@ -27,42 +28,47 @@ class MainActivity : AppCompatActivity() {
     lateinit var mTimer:Timer
     lateinit var img:ImageView
     lateinit var MainLayout: ConstraintSet.Layout
+    lateinit var pointCountTextView:TextView
+
     val lock = ReentrantLock()
-    private fun loadResources():HashMap<String, ArrayList<Bitmap>>
+    private fun loadResources()
     {
-        var res=HashMap<String, ArrayList<Bitmap>>()
+        val entityFactory=SingletonEntityFactory.getInstance()
 
-        val bug1as= BitmapFactory.decodeResource(resources, R.drawable.bug1as)
-        val bug1bs= BitmapFactory.decodeResource(resources, R.drawable.bug1bs)
-        val bug1=ArrayList<Bitmap>()
+        val bug1as= BitmapFactory.decodeResource(resources, R.drawable.bug1a)
+        val bug1bs= BitmapFactory.decodeResource(resources, R.drawable.bug1b)
 
-        bug1.add(bug1as)
-        bug1.add(bug1bs)
+        entityFactory.addBitmap("Bug",bug1as)
+        entityFactory.addBitmap("Bug",bug1bs)
 
-        res["Enemy"]=bug1
+        val bug2as= BitmapFactory.decodeResource(resources, R.drawable.bug2a)
+        val bug2bs= BitmapFactory.decodeResource(resources, R.drawable.bug2b)
+
+        entityFactory.addBitmap("Squid",bug2as)
+        entityFactory.addBitmap("Squid",bug2bs)
+
+        val bug3as= BitmapFactory.decodeResource(resources, R.drawable.bug3a)
+        val bug3bs= BitmapFactory.decodeResource(resources, R.drawable.bug3b)
+
+        entityFactory.addBitmap("Chonker",bug3as)
+        entityFactory.addBitmap("Chonker",bug3bs)
+
 
         val bulleta= BitmapFactory.decodeResource(resources, R.drawable.bulleta)
         val bulletb= BitmapFactory.decodeResource(resources, R.drawable.bulletb)
-        val bullet=ArrayList<Bitmap>()
 
-        bullet.add(bulleta)
-        bullet.add(bulletb)
-
-        res["Bullet"]=bullet
+        entityFactory.addBitmap("Bullet",bulleta)
+        entityFactory.addBitmap("Bullet",bulletb)
 
         val player1= BitmapFactory.decodeResource(resources, R.drawable.player)
-        val player=ArrayList<Bitmap>()
 
-        player.add(player1)
-
-        res["Player"]=player
-
-        return res
+        entityFactory.addBitmap("Player",player1)
     }
 
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?)
     {
+        loadResources()
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
@@ -70,9 +76,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        pointCountTextView=findViewById(R.id.pointCountTextView)
+
         controller=Controller(this,
-            EntityFactory(loadResources()),
-            Boundaries(0,windowManager.defaultDisplay.width,0,windowManager.defaultDisplay.height)
+            Boundaries(0,windowManager.defaultDisplay.width,0,windowManager.defaultDisplay.height),
+            pointCountTextView
         )
 
         controller.setUpSensor();
@@ -118,7 +126,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 )
             }
-        }, 0, 120)
+        }, 0, 100)
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
