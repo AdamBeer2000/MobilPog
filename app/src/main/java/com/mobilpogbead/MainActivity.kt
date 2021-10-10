@@ -65,6 +65,10 @@ class MainActivity : AppCompatActivity() {
         val player1= BitmapFactory.decodeResource(resources, R.drawable.player)
 
         entityFactory.addBitmap("Player",player1)
+
+        val barrier= BitmapFactory.decodeResource(resources, R.drawable.barrier)
+
+        entityFactory.addBitmap("Barricade",barrier)
     }
 
     @RequiresApi(Build.VERSION_CODES.R)

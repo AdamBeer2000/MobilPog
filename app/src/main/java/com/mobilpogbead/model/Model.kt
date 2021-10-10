@@ -20,8 +20,9 @@ class Model(val boundaries:Boundaries)
     val bullets=ArrayList<Bullet>()
     val playerBullets=ArrayList<Bullet>()
     val enemyBullets=ArrayList<Bullet>()
+    val barricades=ArrayList<Barricade>()
 
-    var player:Player=entityFactory.createEntity<Player>(300,boundaries.yMax-250) as Player
+    var player:Player=entityFactory.createEntity<Player>(boundaries.xMax/2-40,boundaries.yMax-250) as Player
 
     var pointCounter=0
 
@@ -46,6 +47,16 @@ class Model(val boundaries:Boundaries)
                 enemys.add(newEnemy as Enemy)
                 shiftx=newEnemy.x+newEnemy.getCurrGfx().width+15
             }
+        }
+        val barref=entityFactory.createEntity<Barricade>(0,0)as Barricade
+
+        var shiftx=boundaries.xMax/8
+        for(i in 0 until 4)
+        {
+            val bar=entityFactory.createEntity<Barricade>(shiftx,boundaries.yMax-400)as Barricade
+            barricades.add(bar)
+            objects.add(bar)
+            shiftx+=2*barref.width
         }
         objects.add(player)
     }
@@ -148,9 +159,16 @@ class Model(val boundaries:Boundaries)
                 if(bullet.collision(enenmy)) Log.d("Hit","Hit")
             }
         }
+
         for(bullet in enemyBullets)
         {
             if(bullet.collision(player)) Log.d("Hit","Hit")
+        }
+
+        for(bullet in bullets)
+        {
+            for(barr in barricades)
+            if(bullet.collision(barr)) Log.d("Hit","Hit")
         }
         clearDead()
     }

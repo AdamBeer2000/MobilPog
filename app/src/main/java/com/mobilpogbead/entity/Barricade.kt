@@ -1,7 +1,13 @@
 package com.mobilpogbead.entity
 
 import android.graphics.Bitmap
-import java.util.ArrayList
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.util.Log
+import androidx.core.graphics.set
+import java.lang.Math.abs
+import java.util.*
 
 class Barricade(x: Int, y: Int, gfx: ArrayList<Bitmap>, hitbox:Array<BooleanArray>):Entity(x, y,gfx,hitbox)
 {
@@ -10,23 +16,15 @@ class Barricade(x: Int, y: Int, gfx: ArrayList<Bitmap>, hitbox:Array<BooleanArra
 
     override fun hit()
     {
-        this.hp = 0
-    }
-
-    override fun collision(other: Entity): Boolean
-    {
-        return super.collision(other)
-    }
-
-    /*
-    override fun collision(x:Int,y:Int):Boolean
-    {
-        if(super.collision(x, y))
+        val x=abs(Random().nextInt()%gfx[0].width)
+        val y=abs(Random().nextInt()%gfx[0].height)
+        Log.d("BarrierHit","BarrierHit")
+        for(i in x until x+15)
         {
-            super.hitbox[y][x]=false
-            return true
+            for(k in y until y+15)
+            {
+                super.gfx[0][i,k]=Color.BLACK
+            }
         }
-        return false
     }
-    */
 }

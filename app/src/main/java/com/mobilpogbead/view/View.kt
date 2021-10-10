@@ -34,7 +34,7 @@ class View(private val model:Model,private var pointCounter:TextView )
 
         val renderedImage = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(renderedImage)
-        
+
         for (obj in model.objects)
         {
             canvas.drawBitmap(obj.getCurrGfx(), obj.x.toFloat(), obj.y.toFloat(), null)
