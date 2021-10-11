@@ -2,6 +2,7 @@ package com.mobilpogbead.controller
 
 import android.content.Context
 import android.content.Context.SENSOR_SERVICE
+import android.graphics.Bitmap
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -14,12 +15,16 @@ import com.mobilpogbead.model.Model
 import com.mobilpogbead.view.View
 import kotlin.system.exitProcess
 
-class Controller(private var context: Context,var boundaries:Boundaries, pointcounter:TextView,lifecounter:TextView)
+class Controller(private var context: Context,var boundaries:Boundaries,
+                 pointcounter:TextView,
+                 lifecounter:TextView,
+                 deathanim: Bitmap
+)
 {
     private lateinit var sensorManager: SensorManager;
 
     val model=Model(boundaries)
-    val view=View(model,pointcounter,lifecounter)
+    val view=View(model,pointcounter,lifecounter,deathanim)
 
     //var gyro_x: Double = 0.0
     //var gyro_y: Double = 0.0

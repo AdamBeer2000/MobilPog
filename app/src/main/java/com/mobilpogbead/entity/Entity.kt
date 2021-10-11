@@ -12,7 +12,6 @@ abstract class Entity (var x:Int, var y:Int, var gfx: ArrayList<Bitmap>, var hit
     @JvmName("getHp1")
     fun getHp()=hp
 
-
     var width=gfx[0].width
     var height=gfx[0].height
 
@@ -63,22 +62,34 @@ abstract class Entity (var x:Int, var y:Int, var gfx: ArrayList<Bitmap>, var hit
 
     fun moveRight()
     {
-        shiftGfx()
-        x+=speed
+        if(!isDead())
+        {
+            shiftGfx()
+            x+=speed
+        }
     }
     fun moveLeft()
     {
-        shiftGfx()
-        x-=speed
+        if(!isDead())
+        {
+            shiftGfx()
+            x -= speed
+        }
     }
     fun moveUp()
     {
-        shiftGfx()
-        y-=speed
+        if(!isDead())
+        {
+            shiftGfx()
+            y -= speed
+        }
     }
     fun moveDown()
     {
-        shiftGfx()
-        y+=speed
+        if(!isDead())
+        {
+            shiftGfx()
+            y += speed
+        }
     }
 }

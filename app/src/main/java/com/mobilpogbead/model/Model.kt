@@ -105,8 +105,10 @@ class Model(val boundaries:Boundaries)
         {
             Bullet.moveDown()
         }
+
         shoot()
         enemyShoot()
+
         if(right)
         {
             for(obj in enemys)
@@ -196,8 +198,9 @@ class Model(val boundaries:Boundaries)
         enemyBullets.remove(obj)
     }
 
-    fun cleanOutOfBounsBullets()
+    fun cleanObjects()
     {
+        clearDead()
         for(obj in bullets)
         {
             if(obj.x>boundaries.xMax+5||obj.x<boundaries.xMin-5

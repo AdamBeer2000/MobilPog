@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity() {
 
         controller=Controller(this,
             Boundaries(0,windowManager.defaultDisplay.width,0,windowManager.defaultDisplay.height),
-            pointCountTextView,lifeCount
+            pointCountTextView,lifeCount,BitmapFactory.decodeResource(resources, R.drawable.boom1)
         )
 
         controller.setUpSensor();
@@ -128,15 +128,15 @@ class MainActivity : AppCompatActivity() {
                             var checkHits=measureNanoTime {
                                 controller.model.checkHits()
                             }
-                            var cleanOutOfBounsObjects=measureNanoTime {
-                                controller.model.cleanOutOfBounsBullets()
+                            var cleanObjects=measureNanoTime {
+                                controller.model.cleanObjects()
                             }
                             lock.unlock()
                             Log.d("Stat","progress:$progress nano")
                             Log.d("Stat","move:$move nano")
                             Log.d("Stat","update:$update nano")
                             Log.d("Stat","checkHits:$checkHits nano")
-                            Log.d("Stat","cleanOutOfBounsObjects:$cleanOutOfBounsObjects nano")
+                            Log.d("Stat","cleanOutOfBounsObjects:$cleanObjects nano")
                         }
                         catch (e:Exception)
                         {
