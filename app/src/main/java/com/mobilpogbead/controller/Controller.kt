@@ -14,12 +14,12 @@ import com.mobilpogbead.model.Model
 import com.mobilpogbead.view.View
 import kotlin.system.exitProcess
 
-class Controller(private var context: Context,var boundaries:Boundaries, pointcounter:TextView)
+class Controller(private var context: Context,var boundaries:Boundaries, pointcounter:TextView,lifecounter:TextView)
 {
     private lateinit var sensorManager: SensorManager;
 
     val model=Model(boundaries)
-    val view=View(model,pointcounter)
+    val view=View(model,pointcounter,lifecounter)
 
     var gyro_x: Double = 0.0
     var gyro_y: Double = 0.0

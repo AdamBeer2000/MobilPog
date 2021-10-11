@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var img:ImageView
     lateinit var MainLayout: ConstraintSet.Layout
     lateinit var pointCountTextView:TextView
-
+    lateinit var lifeCount:TextView
     val lock = ReentrantLock()
     private fun loadResources()
     {
@@ -83,10 +83,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         pointCountTextView=findViewById(R.id.pointCountTextView)
+        lifeCount=findViewById(R.id.lifeCounter)
 
         controller=Controller(this,
             Boundaries(0,windowManager.defaultDisplay.width,0,windowManager.defaultDisplay.height),
-            pointCountTextView
+            pointCountTextView,lifeCount
         )
 
         //controller.setUpSensor();
@@ -112,9 +113,9 @@ class MainActivity : AppCompatActivity() {
                 runOnUiThread(
                     Runnable {
                         Log.d("onstart","update")
-
                         try
                         {
+                            lock.lock()
                             var progress= measureNanoTime {
                                 controller.model.progress()
                             }
@@ -128,10 +129,9 @@ class MainActivity : AppCompatActivity() {
                                 controller.model.checkHits()
                             }
                             var cleanOutOfBounsObjects=measureNanoTime {
-                                lock.lock()
                                 controller.model.cleanOutOfBounsBullets()
-                                lock.unlock()
                             }
+                            lock.unlock()
                             Log.d("Stat","progress:$progress nano")
                             Log.d("Stat","move:$move nano")
                             Log.d("Stat","update:$update nano")

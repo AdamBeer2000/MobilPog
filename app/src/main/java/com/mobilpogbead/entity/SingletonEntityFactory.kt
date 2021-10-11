@@ -34,6 +34,17 @@ class SingletonEntityFactory private constructor()
         }
     }
 
+    fun getResurce(key:String):ArrayList<Bitmap>
+    {
+        val arr=ArrayList<Bitmap>()
+        val res=resources[key]
+        if(res!=null)
+        {
+            arr.addAll(res)
+        }
+        return arr
+    }
+
     fun addBitmap(name:String,bitmap:Bitmap)
     {
         val where=resources[name]
@@ -76,7 +87,8 @@ class SingletonEntityFactory private constructor()
 
             else->throw Exception("NO enemy type found")
         }
-        val bitmap=resources[str]
+
+        val bitmap=getResurce(str)
 
         if(bitmap!=null)
         {

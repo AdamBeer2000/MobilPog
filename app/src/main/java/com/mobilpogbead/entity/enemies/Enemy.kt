@@ -11,8 +11,4 @@ open class Enemy(x: Int, y: Int, gfx:ArrayList<Bitmap>, hitbox:Array<BooleanArra
     override var hp: Int = 1
     open var point=10
 
-    override fun hit()
-    {
-        this.hp=this.hp-1
-    }
 }

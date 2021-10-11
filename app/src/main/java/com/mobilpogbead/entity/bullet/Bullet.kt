@@ -8,9 +8,4 @@ open class Bullet(x: Int, y: Int, gfx: ArrayList<Bitmap>, hitbox:Array<BooleanAr
 {
     override var speed: Int = 40
     override var hp: Int = 1
-
-    override fun hit()
-    {
-        this.hp =this.hp-1
-    }
 }

@@ -22,7 +22,7 @@ class Model(val boundaries:Boundaries)
     val enemyBullets=ArrayList<Bullet>()
     val barricades=ArrayList<Barricade>()
 
-    var player:Player=entityFactory.createEntity<Player>(boundaries.xMax/2-40,boundaries.yMax-250) as Player
+    var player:Player=entityFactory.createEntity<Player>(boundaries.xMax/2,boundaries.yMax-250) as Player
 
     var pointCounter=0
 
@@ -165,10 +165,10 @@ class Model(val boundaries:Boundaries)
             if(bullet.collision(player)) Log.d("Hit","Hit")
         }
 
-        for(bullet in bullets)
+        for(barr in barricades)
         {
-            for(barr in barricades)
-            if(bullet.collision(barr)) Log.d("Hit","Hit")
+            for(bullet in bullets)
+            if(barr.collision(bullet)) Log.d("Hit","Hit")
         }
         clearDead()
     }

@@ -9,13 +9,20 @@ abstract class Entity (var x:Int, var y:Int, var gfx: ArrayList<Bitmap>, var hit
     protected abstract var speed: Int
     protected abstract var hp: Int
 
+    @JvmName("getHp1")
+    fun getHp()=hp
+
+
     var width=gfx[0].width
     var height=gfx[0].height
 
     private var gfxShifter=0
     // ABSTRACT FUNCTIONS
 
-    protected abstract fun hit()
+    open fun hit(other: Entity)
+    {
+        this.hp=this.hp-1
+    }
 
     fun isDead()=hp<=0
 
@@ -47,8 +54,8 @@ abstract class Entity (var x:Int, var y:Int, var gfx: ArrayList<Bitmap>, var hit
             this.y < other.y + other.height &&
             this.height + this.y > other.y)
         {
-            this.hit()
-            other.hit()
+            this.hit(other)
+            other.hit(this)
             return true
         }
         return false
