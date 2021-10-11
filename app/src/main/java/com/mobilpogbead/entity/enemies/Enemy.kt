@@ -1,6 +1,7 @@
 package com.mobilpogbead.entity.enemies
 
 import android.graphics.Bitmap
+import android.util.Log
 import com.mobilpogbead.entity.Entity
 import java.util.ArrayList
 
@@ -11,8 +12,77 @@ open class Enemy(x: Int, y: Int, gfx:ArrayList<Bitmap>, hitbox:Array<BooleanArra
     override var hp: Int = 1
     open var point=10
 
-    override fun hit()
+    companion object
     {
-        this.hp=this.hp-1
+        @JvmStatic
+        var enemyNum:Int=-1
+
+        @JvmStatic
+        fun getCurrEnemyNum():Int
+        {
+            return enemyNum
+        }
+
+        @JvmStatic
+        fun kill()
+        {
+            enemyNum--
+        }
+    }
+
+    fun killit()
+    {
+        kill()
+    }
+
+    init
+    {
+        if(enemyNum!=-1)
+        {
+            enemyNum+=1
+        }
+        else
+        {
+            enemyNum=1
+        }
+    }
+
+    private fun adjustedSpeed():Int
+    {
+        return speed+(55-getCurrEnemyNum())/2
+    }
+
+    override fun moveRight()
+    {
+        if(!isDead())
+        {
+            super.shiftGfx()
+            x+=adjustedSpeed()
+        }
+        Log.d("Speed","${adjustedSpeed()}")
+    }
+    override fun moveLeft()
+    {
+        if(!isDead())
+        {
+            shiftGfx()
+            x -= adjustedSpeed()
+        }
+    }
+    override fun moveUp()
+    {
+        if(!isDead())
+        {
+            shiftGfx()
+            y -= adjustedSpeed()
+        }
+    }
+    override fun moveDown()
+    {
+        if(!isDead())
+        {
+            shiftGfx()
+            y += adjustedSpeed()
+        }
     }
 }

@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var img:ImageView
     lateinit var MainLayout: ConstraintSet.Layout
     lateinit var pointCountTextView:TextView
-
+    lateinit var lifeCount:TextView
     val lock = ReentrantLock()
     private fun loadResources()
     {
@@ -69,6 +69,10 @@ class MainActivity : AppCompatActivity() {
         val barrier= BitmapFactory.decodeResource(resources, R.drawable.barrier)
 
         entityFactory.addBitmap("Barricade",barrier)
+
+        val sapceship= BitmapFactory.decodeResource(resources, R.drawable.spaceship)
+
+        entityFactory.addBitmap("Spaceship",sapceship)
     }
 
     @RequiresApi(Build.VERSION_CODES.R)
@@ -83,10 +87,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         pointCountTextView=findViewById(R.id.pointCountTextView)
+        lifeCount=findViewById(R.id.lifeCounter)
 
         controller=Controller(this,
             Boundaries(0,windowManager.defaultDisplay.width,0,windowManager.defaultDisplay.height),
-            pointCountTextView
+            pointCountTextView,lifeCount,BitmapFactory.decodeResource(resources, R.drawable.boom1)
         )
 
         controller.setUpSensor();
@@ -112,9 +117,9 @@ class MainActivity : AppCompatActivity() {
                 runOnUiThread(
                     Runnable {
                         Log.d("onstart","update")
-
                         try
                         {
+                            lock.lock()
                             var progress= measureNanoTime {
                                 controller.model.progress()
                             }
@@ -127,16 +132,15 @@ class MainActivity : AppCompatActivity() {
                             var checkHits=measureNanoTime {
                                 controller.model.checkHits()
                             }
-                            var cleanOutOfBounsObjects=measureNanoTime {
-                                lock.lock()
-                                controller.model.cleanOutOfBounsBullets()
-                                lock.unlock()
+                            var cleanObjects=measureNanoTime {
+                                controller.model.cleanObjects()
                             }
+                            lock.unlock()
                             Log.d("Stat","progress:$progress nano")
                             Log.d("Stat","move:$move nano")
                             Log.d("Stat","update:$update nano")
                             Log.d("Stat","checkHits:$checkHits nano")
-                            Log.d("Stat","cleanOutOfBounsObjects:$cleanOutOfBounsObjects nano")
+                            Log.d("Stat","cleanOutOfBounsObjects:$cleanObjects nano")
                         }
                         catch (e:Exception)
                         {

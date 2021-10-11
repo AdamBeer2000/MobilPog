@@ -7,6 +7,7 @@ import com.mobilpogbead.entity.bullet.Bullet
 import com.mobilpogbead.entity.bullet.EnemyBullet
 import com.mobilpogbead.entity.bullet.PlayerBullet
 import java.lang.Math.abs
+import java.time.LocalDateTime
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -22,8 +23,8 @@ class Model(val boundaries:Boundaries)
     val enemyBullets=ArrayList<Bullet>()
     val barricades=ArrayList<Barricade>()
 
-    var player:Player=entityFactory.createEntity<Player>(boundaries.xMax/2-40,boundaries.yMax-250) as Player
-
+    var player:Player=entityFactory.createEntity<Player>(boundaries.xMax/2,boundaries.yMax-250) as Player
+    var spaceship:Spaceship?=null
     var pointCounter=0
 
     init
@@ -65,7 +66,7 @@ class Model(val boundaries:Boundaries)
 
     fun enemyShoot()
     {
-        if(enemyBullets.count()<=3&&!player.isDead())
+        if(enemyBullets.count()<=4&&!player.isDead())
         {
             val enemy=enemys[abs(Random().nextInt())%enemys.size]
             val bullet: EnemyBullet =entityFactory.createEntity<EnemyBullet>(enemy.x,enemy.y) as EnemyBullet
@@ -75,14 +76,16 @@ class Model(val boundaries:Boundaries)
         }
     }
 
+    var shoot:Long=System.currentTimeMillis()
     fun shoot()
     {
-        if(playerBullets.count()<=2&&!player.isDead())
+        if(playerBullets.count()<=2&&!player.isDead()&&System.currentTimeMillis()-shoot>=1000)
         {
             val bullet: PlayerBullet =entityFactory.createEntity<PlayerBullet>(player.x+25,player.y-25) as PlayerBullet
             objects.add(bullet)
             playerBullets.add(bullet)
             bullets.add(bullet)
+            shoot=System.currentTimeMillis()
         }
     }
 
@@ -97,6 +100,13 @@ class Model(val boundaries:Boundaries)
 
     fun progress()
     {
+        if(abs(Random().nextInt()%100)>=99&&spaceship==null)
+        {
+            spaceship=entityFactory.createEntity<Spaceship>(boundaries.xMax,0)as Spaceship
+            if(spaceship!=null)
+            objects.add(spaceship as Spaceship)
+        }
+
         for(Bullet in playerBullets)
         {
             Bullet.moveUp()
@@ -105,8 +115,12 @@ class Model(val boundaries:Boundaries)
         {
             Bullet.moveDown()
         }
+
+        spaceship?.moveLeft()
+
         shoot()
         enemyShoot()
+
         if(right)
         {
             for(obj in enemys)
@@ -149,6 +163,7 @@ class Model(val boundaries:Boundaries)
             }
             return
         }
+
     }
     fun checkHits()
     {
@@ -158,6 +173,10 @@ class Model(val boundaries:Boundaries)
             {
                 if(bullet.collision(enenmy)) Log.d("Hit","Hit")
             }
+            for(enenmybullet in enemyBullets)
+            {
+                if(bullet.collision(enenmybullet)) Log.d("Hit","Hit")
+            }
         }
 
         for(bullet in enemyBullets)
@@ -165,10 +184,10 @@ class Model(val boundaries:Boundaries)
             if(bullet.collision(player)) Log.d("Hit","Hit")
         }
 
-        for(bullet in bullets)
+        for(barr in barricades)
         {
-            for(barr in barricades)
-            if(bullet.collision(barr)) Log.d("Hit","Hit")
+            for(bullet in bullets)
+            if(barr.collision(bullet)) Log.d("Hit","Hit")
         }
         clearDead()
     }
@@ -178,7 +197,12 @@ class Model(val boundaries:Boundaries)
         {
             if(obj.isDead())
             {
-                if(obj is Enemy)pointCounter+= (obj as Enemy).point
+                if(obj is Enemy)
+                {
+                    pointCounter+= (obj as Enemy).point
+                    obj.killit()
+                }
+
                 Log.d("Point system","Points : $pointCounter")
                 safeRemove(obj)
             }
@@ -187,6 +211,11 @@ class Model(val boundaries:Boundaries)
         {
             objects.remove(player)
         }
+        if(spaceship?.isDead() == true)
+        {
+            pointCounter+= spaceship?.point!!
+            spaceship=null
+        }
     }
     fun safeRemove(obj:Entity?)
     {
@@ -194,14 +223,17 @@ class Model(val boundaries:Boundaries)
         enemys.remove(obj)
         playerBullets.remove(obj)
         enemyBullets.remove(obj)
+        if(obj is Spaceship)spaceship=null
     }
 
-    fun cleanOutOfBounsBullets()
+    fun cleanObjects()
     {
-        for(obj in bullets)
+        clearDead()
+        for(obj in objects)
         {
-            if(obj.x>boundaries.xMax+5||obj.x<boundaries.xMin-5
-                ||obj.y>boundaries.yMax+5||obj.y<boundaries.yMin-5)
+            if(obj is Bullet||obj is Spaceship)
+            if(obj.x>boundaries.xMax+15||obj.x<boundaries.xMin-15
+                ||obj.y>boundaries.yMax+15||obj.y<boundaries.yMin-15)
             {
                 safeRemove(obj)
             }
