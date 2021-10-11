@@ -173,6 +173,10 @@ class Model(val boundaries:Boundaries)
             {
                 if(bullet.collision(enenmy)) Log.d("Hit","Hit")
             }
+            for(enenmybullet in enemyBullets)
+            {
+                if(bullet.collision(enenmybullet)) Log.d("Hit","Hit")
+            }
         }
 
         for(bullet in enemyBullets)
