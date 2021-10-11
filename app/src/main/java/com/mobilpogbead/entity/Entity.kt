@@ -30,7 +30,7 @@ abstract class Entity (var x:Int, var y:Int, var gfx: ArrayList<Bitmap>, var hit
         return gfx[gfxShifter]
     }
 
-    private fun shiftGfx()
+    protected fun shiftGfx()
     {
         if(gfx.size!=1)
         {
@@ -60,7 +60,7 @@ abstract class Entity (var x:Int, var y:Int, var gfx: ArrayList<Bitmap>, var hit
         return false
     }
 
-    fun moveRight()
+    open fun moveRight()
     {
         if(!isDead())
         {
@@ -68,7 +68,7 @@ abstract class Entity (var x:Int, var y:Int, var gfx: ArrayList<Bitmap>, var hit
             x+=speed
         }
     }
-    fun moveLeft()
+    open fun moveLeft()
     {
         if(!isDead())
         {
@@ -76,7 +76,7 @@ abstract class Entity (var x:Int, var y:Int, var gfx: ArrayList<Bitmap>, var hit
             x -= speed
         }
     }
-    fun moveUp()
+    open fun moveUp()
     {
         if(!isDead())
         {
@@ -84,7 +84,7 @@ abstract class Entity (var x:Int, var y:Int, var gfx: ArrayList<Bitmap>, var hit
             y -= speed
         }
     }
-    fun moveDown()
+    open fun moveDown()
     {
         if(!isDead())
         {
