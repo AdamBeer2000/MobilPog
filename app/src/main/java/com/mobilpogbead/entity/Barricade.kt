@@ -55,11 +55,7 @@ class Barricade(x: Int, y: Int, gfx: ArrayList<Bitmap>, hitbox:Array<BooleanArra
 
     override fun hit(other:Entity)
     {
-        val x=abs(Random().nextInt()%gfx[0].width)
-        val y=abs(Random().nextInt()%gfx[0].height)
-
         val newGfx: Bitmap = gfx[0].copy(Bitmap.Config.ARGB_8888, true)
-        val r=Random()
         val bls=blastCords(other as Bullet)
 
         for(p in bls)

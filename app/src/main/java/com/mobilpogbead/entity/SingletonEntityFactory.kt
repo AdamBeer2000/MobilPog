@@ -9,6 +9,7 @@ import com.mobilpogbead.entity.bullet.EnemyBullet
 import com.mobilpogbead.entity.bullet.PlayerBullet
 import com.mobilpogbead.entity.enemies.Bug
 import com.mobilpogbead.entity.enemies.Chonker
+import com.mobilpogbead.entity.enemies.Spaceship
 import com.mobilpogbead.entity.enemies.Squid
 import java.lang.Exception
 import java.util.ArrayList
@@ -84,7 +85,7 @@ class SingletonEntityFactory private constructor()
             Chonker::class->str="Chonker"
             Bug::class->str="Bug"
             Player::class->str="Player"
-
+            Spaceship::class->str="Spaceship"
             else->throw Exception("NO enemy type found")
         }
 
@@ -101,6 +102,7 @@ class SingletonEntityFactory private constructor()
                 Chonker::class->return Chonker(x,y,bitmap,bitmapToHitbox(bitmap[0]))
                 Bug::class->return Bug(x,y,bitmap,bitmapToHitbox(bitmap[0]))
                 Player::class->return Player(x,y,bitmap,bitmapToHitbox(bitmap[0]))
+                Spaceship::class->return Spaceship(x,y,bitmap,bitmapToHitbox(bitmap[0]))
                 else->throw Exception("NO resource found")
             }
         }

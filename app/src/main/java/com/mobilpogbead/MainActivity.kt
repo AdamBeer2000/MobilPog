@@ -69,6 +69,10 @@ class MainActivity : AppCompatActivity() {
         val barrier= BitmapFactory.decodeResource(resources, R.drawable.barrier)
 
         entityFactory.addBitmap("Barricade",barrier)
+
+        val sapceship= BitmapFactory.decodeResource(resources, R.drawable.spaceship)
+
+        entityFactory.addBitmap("Spaceship",sapceship)
     }
 
     @RequiresApi(Build.VERSION_CODES.R)

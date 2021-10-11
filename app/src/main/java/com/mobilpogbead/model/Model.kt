@@ -23,7 +23,7 @@ class Model(val boundaries:Boundaries)
     val barricades=ArrayList<Barricade>()
 
     var player:Player=entityFactory.createEntity<Player>(boundaries.xMax/2,boundaries.yMax-250) as Player
-
+    var spaceship:Spaceship?=null
     var pointCounter=0
 
     init
@@ -97,6 +97,13 @@ class Model(val boundaries:Boundaries)
 
     fun progress()
     {
+        if(abs(Random().nextInt()%100)>=99&&spaceship==null)
+        {
+            spaceship=entityFactory.createEntity<Spaceship>(boundaries.xMax,0)as Spaceship
+            if(spaceship!=null)
+            objects.add(spaceship as Spaceship)
+        }
+
         for(Bullet in playerBullets)
         {
             Bullet.moveUp()
@@ -105,6 +112,8 @@ class Model(val boundaries:Boundaries)
         {
             Bullet.moveDown()
         }
+
+        spaceship?.moveLeft()
 
         shoot()
         enemyShoot()
@@ -151,6 +160,7 @@ class Model(val boundaries:Boundaries)
             }
             return
         }
+
     }
     fun checkHits()
     {
@@ -196,15 +206,16 @@ class Model(val boundaries:Boundaries)
         enemys.remove(obj)
         playerBullets.remove(obj)
         enemyBullets.remove(obj)
+        if(obj is Spaceship)spaceship=null
     }
 
     fun cleanObjects()
     {
         clearDead()
-        for(obj in bullets)
+        for(obj in objects)
         {
-            if(obj.x>boundaries.xMax+5||obj.x<boundaries.xMin-5
-                ||obj.y>boundaries.yMax+5||obj.y<boundaries.yMin-5)
+            if(obj.x>boundaries.xMax+15||obj.x<boundaries.xMin-15
+                ||obj.y>boundaries.yMax+15||obj.y<boundaries.yMin-15)
             {
                 safeRemove(obj)
             }

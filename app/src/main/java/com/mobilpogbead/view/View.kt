@@ -32,7 +32,6 @@ class View(private val model:Model,private var pointCounter:TextView,private var
 
     fun update()
     {
-
         val renderedImage = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(renderedImage)
 
@@ -46,7 +45,6 @@ class View(private val model:Model,private var pointCounter:TextView,private var
         imgv.setImageBitmap(renderedImage)
         pointCounter.text="Points:${model.pointCounter}"
         lifeCounter.text="${model.player.getHp()}x"
-
         //Log.d("Update","Time:$elapsed s")
     }
 }
