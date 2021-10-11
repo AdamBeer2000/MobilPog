@@ -90,7 +90,7 @@ class MainActivity : AppCompatActivity() {
             pointCountTextView,lifeCount
         )
 
-        //controller.setUpSensor();
+        controller.setUpSensor();
 
         img= ImageView(this)
         img.maxWidth=windowManager.defaultDisplay.width
