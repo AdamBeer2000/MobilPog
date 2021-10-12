@@ -59,7 +59,7 @@ class Controller(private var context: Context,var boundaries:Boundaries,
 
         if(gyroSensor == null) {
             Log.e("SENSOR", "Gyro sensor not available.");
-            exitProcess(420); // Close app
+            //exitProcess(420); // Close app
         }
 
         Log.d("SETUP-SENSOR","SUCCESSFUL")

@@ -74,7 +74,7 @@ class Model(val boundaries:Boundaries)
 
     fun enemyShoot()
     {
-        if(enemyBullets.count()<=4&&!player.isDead())
+        if(enemyBullets.count()<=2&&!player.isDead())
         {
             val enemy=enemys[abs(Random().nextInt())%enemys.size]
             val bullet: EnemyBullet =entityFactory.createEntity<EnemyBullet>(enemy.x,enemy.y) as EnemyBullet
@@ -222,6 +222,7 @@ class Model(val boundaries:Boundaries)
         if(spaceship?.isDead() == true)
         {
             pointCounter+= spaceship?.point!!
+            spaceship?.killit()
             spaceship=null
         }
     }

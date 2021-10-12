@@ -13,6 +13,7 @@ import java.util.*
 import android.R.attr.bitmap
 import android.graphics.Point
 import com.mobilpogbead.entity.bullet.Bullet
+import com.mobilpogbead.entity.bullet.PlayerBullet
 import java.lang.Math.pow
 import kotlin.collections.ArrayList
 import kotlin.math.floor
@@ -24,19 +25,32 @@ class Barricade(x: Int, y: Int, gfx: ArrayList<Bitmap>, hitbox:Array<BooleanArra
     override var speed: Int=0
     override var hp: Int=Int.MAX_VALUE
 
+    var r=pow(20.0,2.0)
+
     private fun blastCords(other:Bullet):ArrayList<Point>
     {
         val array=ArrayList<Point>()
+        var blastEpicenter=Point()
+        if(other is PlayerBullet)
+        {
+            blastEpicenter.x=other.x+other.width/2
+            blastEpicenter.y=other.y+other.height
+        }
+        else
+        {
+            blastEpicenter.x=other.x+other.width/2
+            blastEpicenter.y=other.y
+        }
+
+        Log.d("BlastEpicenter","$blastEpicenter")
         for(i in this.x until this.x+this.getCurrGfx().width)
         {
             for(k in this.y until this.y+this.getCurrGfx().height)
             {
-                if(other.x<=i&&i<=other.x+other.width)
+                val u=(pow((i-blastEpicenter.x).toDouble(),2.0)+pow((k-blastEpicenter.y).toDouble(),2.0))
+                if(u<r)
                 {
-                    if(other.y<=k&&k<=other.y+other.height)
-                    {
-                        array.add(Point(i-this.x,k-this.y))
-                    }
+                    array.add(Point(i-this.x,k-this.y))
                 }
             }
         }

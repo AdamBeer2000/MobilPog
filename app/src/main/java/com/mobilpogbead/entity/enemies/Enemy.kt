@@ -4,11 +4,12 @@ import android.graphics.Bitmap
 import android.util.Log
 import com.mobilpogbead.entity.Entity
 import java.util.ArrayList
+import kotlin.math.min
 
 
 open class Enemy(x: Int, y: Int, gfx:ArrayList<Bitmap>, hitbox:Array<BooleanArray>): Entity(x, y,gfx,hitbox)
 {
-    override var speed: Int = 15
+    override var speed: Int = 5
     override var hp: Int = 1
     open var point=10
 
@@ -49,7 +50,7 @@ open class Enemy(x: Int, y: Int, gfx:ArrayList<Bitmap>, hitbox:Array<BooleanArra
 
     private fun adjustedSpeed():Int
     {
-        return speed+(55-getCurrEnemyNum())/2
+        return speed+ ((55-enemyNum)/5)
     }
 
     override fun moveRight()
@@ -59,7 +60,7 @@ open class Enemy(x: Int, y: Int, gfx:ArrayList<Bitmap>, hitbox:Array<BooleanArra
             super.shiftGfx()
             x+=adjustedSpeed()
         }
-        Log.d("Speed","${adjustedSpeed()}")
+        Log.d("Speed","Speed:${adjustedSpeed()} Num:$enemyNum")
     }
     override fun moveLeft()
     {
