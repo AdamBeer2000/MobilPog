@@ -164,4 +164,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun onTouch(view: View) {
+        Log.d("TOUCH", "MainActivity - touched")
+        //TODO: shooting
+    }
+
 }
