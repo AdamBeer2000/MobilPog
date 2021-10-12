@@ -1,17 +1,22 @@
 package com.mobilpogbead
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Layout
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
+import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.ContentView
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintSet
 import com.mobilpogbead.controller.Controller
@@ -32,7 +37,17 @@ class MainActivity : AppCompatActivity() {
     lateinit var MainLayout: ConstraintSet.Layout
     lateinit var pointCountTextView:TextView
     lateinit var lifeCount:TextView
+
+    lateinit var gameOverBtn: Button
+    lateinit var gameOverText: TextView
+    lateinit var gameOverRetryBtn: Button
+    lateinit var gameOverPoints: TextView
+
+    lateinit var highscoreTw: TextView
+    lateinit var gamerName: TextView
+
     val lock = ReentrantLock()
+
     private fun loadResources()
     {
         val entityFactory=SingletonEntityFactory.getInstance()
@@ -75,32 +90,87 @@ class MainActivity : AppCompatActivity() {
         entityFactory.addBitmap("Spaceship",sapceship)
     }
 
-    @RequiresApi(Build.VERSION_CODES.R)
-    override fun onCreate(savedInstanceState: Bundle?)
+    fun gameOver()
     {
-        loadResources()
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        this.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+        gameOverPoints.text="Points: ${controller.model.pointCounter}"
+        gameOverBtn.visibility=View.VISIBLE
+        gameOverText.visibility=View.VISIBLE
+        gameOverRetryBtn.visibility=View.VISIBLE
+        gameOverPoints.visibility=View.VISIBLE
+    }
 
+    fun nextEvent(v:View)
+    {
+        val name:String= gamerName.text as String
+        val points:Int=controller.model.pointCounter
+
+        //todo Adatbázis hozzáad
+        //todo Adatbázis átirányítás leaderboardra
+        
+        //val i=Intent(this,Ac)
+        //startActivity(i)
+    }
+    fun retryEvent(v:View)
+    {
+        val name:String= gamerName.text as String
+        val points:Int=controller.model.pointCounter
+
+        //todo Adatbázis hozzáad
+
+        val i=Intent(this,MainActivity::class.java)
+        startActivity(i)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.R)
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        loadResources()
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main)
 
-        pointCountTextView=findViewById(R.id.pointCountTextView)
-        lifeCount=findViewById(R.id.lifeCounter)
+        this.getWindow().setFlags(
+            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN
+        );
+        this.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
 
-        controller=Controller(this,
-            Boundaries(0,windowManager.defaultDisplay.width,0,windowManager.defaultDisplay.height),
-            pointCountTextView,lifeCount,BitmapFactory.decodeResource(resources, R.drawable.boom1)
+
+
+        pointCountTextView = findViewById(R.id.pointCountTextView)
+        lifeCount = findViewById(R.id.lifeCounter)
+
+        controller = Controller(
+            this,
+            Boundaries(
+                0,
+                windowManager.defaultDisplay.width,
+                0,
+                windowManager.defaultDisplay.height
+            ),
+            pointCountTextView, lifeCount, BitmapFactory.decodeResource(resources, R.drawable.boom1)
         )
 
         controller.setUpSensor();
 
-        img= ImageView(this)
-        img.maxWidth=windowManager.defaultDisplay.width
-        img.maxHeight=windowManager.defaultDisplay.height
+        img = ImageView(this)
+        img.maxWidth = windowManager.defaultDisplay.width
+        img.maxHeight = windowManager.defaultDisplay.height
 
-        addContentView(img,ViewGroup.LayoutParams(img.maxWidth,img.maxHeight))
+        addContentView(img, ViewGroup.LayoutParams(img.maxWidth, img.maxHeight))
+
+        gameOverBtn=findViewById(R.id.buttonNext)
+        gameOverText=findViewById(R.id.textView2)
+
+        gameOverRetryBtn=findViewById(R.id.buttonRetry)
+        gameOverPoints=findViewById(R.id.gameOverPoints)
+        highscoreTw=findViewById(R.id.highscoreTw)
+        gamerName=findViewById(R.id.gamerName)
+
+        gameOverBtn.visibility=View.INVISIBLE
+        gameOverText.visibility=View.INVISIBLE
+        gameOverRetryBtn.visibility=View.INVISIBLE
+        gameOverPoints.visibility=View.INVISIBLE
 
         controller.view.bind(img)
 
@@ -119,28 +189,36 @@ class MainActivity : AppCompatActivity() {
                         Log.d("onstart","update")
                         try
                         {
-                            lock.lock()
-                            var progress= measureNanoTime {
-                                controller.model.progress()
+                            if(controller.model.winCheckh()||controller.model.failCheckh())
+                            {
+                                gameOver()
+                                mTimer.purge()
                             }
-                            var move=measureNanoTime {
-                                controller.move()
+                            else
+                            {
+                                lock.lock()
+                                var progress= measureNanoTime {
+                                    controller.model.progress()
+                                }
+                                var move=measureNanoTime {
+                                    controller.move()
+                                }
+                                var update=measureNanoTime {
+                                    controller.view.update()
+                                }
+                                var checkHits=measureNanoTime {
+                                    controller.model.checkHits()
+                                }
+                                var cleanObjects=measureNanoTime {
+                                    controller.model.cleanObjects()
+                                }
+                                lock.unlock()
+                                Log.d("Stat","progress:$progress nano")
+                                Log.d("Stat","move:$move nano")
+                                Log.d("Stat","update:$update nano")
+                                Log.d("Stat","checkHits:$checkHits nano")
+                                Log.d("Stat","cleanOutOfBounsObjects:$cleanObjects nano")
                             }
-                            var update=measureNanoTime {
-                                controller.view.update()
-                            }
-                            var checkHits=measureNanoTime {
-                                controller.model.checkHits()
-                            }
-                            var cleanObjects=measureNanoTime {
-                                controller.model.cleanObjects()
-                            }
-                            lock.unlock()
-                            Log.d("Stat","progress:$progress nano")
-                            Log.d("Stat","move:$move nano")
-                            Log.d("Stat","update:$update nano")
-                            Log.d("Stat","checkHits:$checkHits nano")
-                            Log.d("Stat","cleanOutOfBounsObjects:$cleanObjects nano")
                         }
                         catch (e:Exception)
                         {

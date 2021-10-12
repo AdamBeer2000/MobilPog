@@ -33,7 +33,7 @@ class Model(val boundaries:Boundaries)
     private fun initState()
     {
         var ref=entityFactory.createEntity<Bug>(0,0)
-        var shifty=1
+        var shifty=40
         for(i in 0 until 5)
         {
             var shiftx=1
@@ -71,7 +71,6 @@ class Model(val boundaries:Boundaries)
         initState()
     }
 
-
     fun enemyShoot()
     {
         if(enemyBullets.count()<=2&&!player.isDead())
@@ -101,6 +100,7 @@ class Model(val boundaries:Boundaries)
     {
         return enemys.size==0
     }
+
     fun failCheckh():Boolean
     {
         return player.isDead()
@@ -110,7 +110,7 @@ class Model(val boundaries:Boundaries)
     {
         if(abs(Random().nextInt()%100)>=99&&spaceship==null)
         {
-            spaceship=entityFactory.createEntity<Spaceship>(boundaries.xMax,0)as Spaceship
+            spaceship=entityFactory.createEntity<Spaceship>(boundaries.xMax,40)as Spaceship
             if(spaceship!=null)
             objects.add(spaceship as Spaceship)
         }
