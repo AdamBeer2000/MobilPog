@@ -27,7 +27,7 @@ abstract class Entity (var x:Int, var y:Int, var gfx: ArrayList<Bitmap>, var hit
 
     fun getCurrGfx():Bitmap
     {
-        return gfx[gfxShifter]
+        return gfx[gfxShifter/2]
     }
 
     protected fun shiftGfx()
@@ -35,7 +35,7 @@ abstract class Entity (var x:Int, var y:Int, var gfx: ArrayList<Bitmap>, var hit
         if(gfx.size!=1)
         {
             gfxShifter++
-            if(gfx.size==gfxShifter)
+            if(gfx.size==gfxShifter/2)
             {
                 gfxShifter=0
             }

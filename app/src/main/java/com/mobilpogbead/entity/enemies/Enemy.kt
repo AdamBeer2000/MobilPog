@@ -50,7 +50,7 @@ open class Enemy(x: Int, y: Int, gfx:ArrayList<Bitmap>, hitbox:Array<BooleanArra
 
     private fun adjustedSpeed():Int
     {
-        return speed+ ((55-enemyNum)/5)
+        return speed+((55-enemyNum)/3)
     }
 
     override fun moveRight()

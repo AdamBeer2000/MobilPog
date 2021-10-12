@@ -58,6 +58,20 @@
                 android:text="TextView"
                 android:textColor="@color/white"
                 android:textColorLink="@color/white" />
+
+            <Space
+                android:layout_width="32dp"
+                android:layout_height="19dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/timeCounterTw2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="TextView"
+                android:textColor="@color/white"
+                android:textColorLink="@color/white" />
         </LinearLayout>
 
         <LinearLayout
@@ -78,7 +92,16 @@
                 android:textSize="25sp" />
 
             <TextView
-                android:id="@+id/gameOverPoints"
+                android:id="@+id/gameOverTimeTw"
+                style="@style/Widget.AppCompat.TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Time:9999s"
+                android:textColor="#4CFF00"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/gameOverPointsTw"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Points:9999"
@@ -100,8 +123,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#4CFF00"
-                android:onClick="nextEvent"
-                android:text="LeaderBoard" />
+                android:onClick="back"
+                android:text="Backto Menu" />
 
             <Button
                 android:id="@+id/buttonRetry"

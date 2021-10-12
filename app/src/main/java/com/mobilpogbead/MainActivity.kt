@@ -1,12 +1,10 @@
 package com.mobilpogbead
 
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Layout
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
@@ -14,9 +12,7 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.annotation.ContentView
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintSet
 import com.mobilpogbead.controller.Controller
@@ -24,10 +20,7 @@ import com.mobilpogbead.entity.SingletonEntityFactory
 import com.mobilpogbead.model.Boundaries
 import java.util.*
 import java.util.concurrent.locks.ReentrantLock
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 import kotlin.system.measureNanoTime
-import kotlin.system.measureTimeMillis
 
 class MainActivity : AppCompatActivity() {
 
@@ -45,6 +38,11 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var highscoreTw: TextView
     lateinit var gamerName: TextView
+
+    lateinit var timeCounter:TextView
+    lateinit var gameOverTime:TextView
+
+    var timeStart:Long=0L
 
     val lock = ReentrantLock()
 
@@ -93,26 +91,30 @@ class MainActivity : AppCompatActivity() {
     fun gameOver()
     {
         gameOverPoints.text="Points: ${controller.model.pointCounter}"
+        gameOverTime.text=timeCounter.text
+
         gameOverBtn.visibility=View.VISIBLE
         gameOverText.visibility=View.VISIBLE
         gameOverRetryBtn.visibility=View.VISIBLE
         gameOverPoints.visibility=View.VISIBLE
         gamerName.visibility=View.VISIBLE
+        gameOverTime.visibility=View.VISIBLE
     }
 
-    fun nextEvent(v:View)
+    fun back(v:View)
     {
-        val name:String= gamerName.text as String
+        val name:String= gamerName.text.toString()
         val points:Int=controller.model.pointCounter
 
         //todo Adatbázis hozzáad
         
-        val i=Intent(this,LeaderboardActivity::class.java)
+        val i=Intent(this,MainMenu::class.java)
         startActivity(i)
     }
+
     fun retryEvent(v:View)
     {
-        val name:String= gamerName.text as String
+        val name:String= gamerName.text.toString()
         val points:Int=controller.model.pointCounter
 
         //todo Adatbázis hozzáad
@@ -163,15 +165,19 @@ class MainActivity : AppCompatActivity() {
         gameOverText=findViewById(R.id.textView2)
 
         gameOverRetryBtn=findViewById(R.id.buttonRetry)
-        gameOverPoints=findViewById(R.id.gameOverPoints)
+        gameOverPoints=findViewById(R.id.gameOverPointsTw)
         highscoreTw=findViewById(R.id.highscoreTw)
         gamerName=findViewById(R.id.gamerName)
+        timeCounter=findViewById(R.id.timeCounterTw2)
+        gameOverTime=findViewById(R.id.gameOverTimeTw)
+
 
         gameOverBtn.visibility=View.INVISIBLE
         gameOverText.visibility=View.INVISIBLE
         gameOverRetryBtn.visibility=View.INVISIBLE
         gameOverPoints.visibility=View.INVISIBLE
         gamerName.visibility=View.INVISIBLE
+        gameOverTime.visibility=View.INVISIBLE
 
         controller.view.bind(img)
 
@@ -180,6 +186,7 @@ class MainActivity : AppCompatActivity() {
     override fun onStart()
     {
         super.onStart()
+        timeStart=System.currentTimeMillis()
         mTimer = Timer()
         mTimer.schedule(object : TimerTask()
         {
@@ -214,6 +221,7 @@ class MainActivity : AppCompatActivity() {
                                     controller.model.cleanObjects()
                                 }
                                 lock.unlock()
+                                timeCounter.text="Time: ${(System.currentTimeMillis()-timeStart)/1000}." + "${((System.currentTimeMillis()-timeStart)%1000)} s"
                                 Log.d("Stat","progress:$progress nano")
                                 Log.d("Stat","move:$move nano")
                                 Log.d("Stat","update:$update nano")
@@ -228,7 +236,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 )
             }
-        }, 0, 120)
+        }, 0, 60)
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
