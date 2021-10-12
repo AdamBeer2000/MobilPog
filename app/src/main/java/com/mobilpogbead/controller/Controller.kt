@@ -115,14 +115,13 @@ class Controller(private var context: Context,var boundaries:Boundaries,
     fun move()
     {
         val y: Float = mRotationMatrix[6];
-        if(boundaries.xMin<=model.player.x-model.player.width-1&&model.player.x+model.player.width+1<=boundaries.xMax)
+        //
+        if(boundaries.xMin<=model.player.x-model.player.width-1&&y > 0.0)
         {
-            if(y > 0.0){
-                model.player.moveLeft()
-            }
-            else if(y < 0.0){
-                model.player.moveRight()
-            }
+            model.player.moveLeft()
+        }else if (model.player.x+model.player.width+1<=boundaries.xMax && y < 0.0){
+            model.player.moveRight()
         }
+
     }
 }
