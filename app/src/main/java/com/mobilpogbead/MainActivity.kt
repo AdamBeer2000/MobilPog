@@ -105,9 +105,8 @@ class MainActivity : AppCompatActivity() {
         val points:Int=controller.model.pointCounter
 
         //todo Adatbázis hozzáad
-        //todo Adatbázis átirányítás leaderboardra
         
-        //val i=Intent(this,Ac)
+        val i=Intent(this,LeaderboardActivity::class.java)
         //startActivity(i)
     }
     fun retryEvent(v:View)
