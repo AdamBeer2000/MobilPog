@@ -27,10 +27,12 @@ class Model(val boundaries:Boundaries)
     var spaceship:Spaceship?=null
     var pointCounter=0
 
-    init
+    var right:Boolean=true
+    var left:Boolean=false
+
+    private fun initState()
     {
         var ref=entityFactory.createEntity<Bug>(0,0)
-
         var shifty=1
         for(i in 0 until 5)
         {
@@ -60,9 +62,15 @@ class Model(val boundaries:Boundaries)
             shiftx+=2*barref.width
         }
         objects.add(player)
+        var right=true
+        var left=false
     }
-    var right:Boolean=true
-    var left:Boolean=false
+
+    init
+    {
+        initState()
+    }
+
 
     fun enemyShoot()
     {
