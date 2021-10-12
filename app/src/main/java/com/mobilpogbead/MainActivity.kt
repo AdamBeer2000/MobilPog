@@ -97,6 +97,7 @@ class MainActivity : AppCompatActivity() {
         gameOverText.visibility=View.VISIBLE
         gameOverRetryBtn.visibility=View.VISIBLE
         gameOverPoints.visibility=View.VISIBLE
+        gamerName.visibility=View.VISIBLE
     }
 
     fun nextEvent(v:View)
@@ -107,7 +108,7 @@ class MainActivity : AppCompatActivity() {
         //todo Adatbázis hozzáad
         
         val i=Intent(this,LeaderboardActivity::class.java)
-        //startActivity(i)
+        startActivity(i)
     }
     fun retryEvent(v:View)
     {
@@ -170,6 +171,7 @@ class MainActivity : AppCompatActivity() {
         gameOverText.visibility=View.INVISIBLE
         gameOverRetryBtn.visibility=View.INVISIBLE
         gameOverPoints.visibility=View.INVISIBLE
+        gamerName.visibility=View.INVISIBLE
 
         controller.view.bind(img)
 

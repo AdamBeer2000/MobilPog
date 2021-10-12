@@ -23,21 +23,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MobilpogBead">
         <activity
+            android:name=".MainMenu"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="true"
+            android:label="@string/title_activity_main_menu"
+            android:theme="@style/Theme.MobilpogBead.Fullscreen" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".LeaderboardActivity"
             android:exported="true" />
-        <!--
-        <activity
-            android:name=".GameActivity"
-            android:exported="true" />
-        -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 
