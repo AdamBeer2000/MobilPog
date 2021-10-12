@@ -126,7 +126,6 @@ class Model(val boundaries:Boundaries)
 
         spaceship?.moveLeft()
 
-        shoot()
         enemyShoot()
 
         if(right)
