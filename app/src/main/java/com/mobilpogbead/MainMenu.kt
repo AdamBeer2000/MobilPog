@@ -9,11 +9,11 @@ class MainMenu : AppCompatActivity()
 {
     fun toLeaderBoard(v:View)
     {
-        startActivity(Intent(this,MainActivity::class.java))
+        startActivity(Intent(this,LeaderboardActivity::class.java))
     }
     fun toGame(v:View)
     {
-        startActivity(Intent(this,LeaderboardActivity::class.java))
+        startActivity(Intent(this,MainActivity::class.java))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
