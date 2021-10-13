@@ -114,9 +114,10 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="#4CFF00"
                 android:ems="10"
+                android:hint="Name"
                 android:inputType="textPersonName"
-                android:text="Name:"
-                android:textColor="#4CFF00" />
+                android:textColor="#4CFF00"
+                android:textColorHint="#4CFF00" />
 
             <Button
                 android:id="@+id/buttonNext"

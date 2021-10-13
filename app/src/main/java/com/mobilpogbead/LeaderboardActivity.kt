@@ -19,52 +19,16 @@ import com.mobilpogbead.database.Score
 
 class LeaderboardActivity : AppCompatActivity()
 {
-
-    private lateinit var db: DatabaseManager
-
     fun dataLoad():ArrayList<Score>
     {
         //todo adatb lekérdezés
 
-        val scores = ArrayList<Score>()
-
-        try {
-            db = DatabaseManager(this)
-            val cursor = db.getData()
-
-            if (cursor.moveToFirst()) {
-                do {
-                    val name: String = cursor.getString(0)
-                    val score: Int = cursor.getInt(1)
-                    val time: Float = cursor.getFloat(2)
-
-                    scores.add(Score(name, score, time))
-                } while (cursor.moveToNext())
-            }
-            cursor.close()
-        }
-        catch (e: SQLiteException)
-        {
-            scores.add(Score("Placeholder1",0, 70.0F))
-            scores.add(Score("Placeholder2",0,69.0F))
-            scores.add(Score("Placeholder3",0,69.99F))
-            scores.add(Score("Placeholder4",0,80.0F))
-            scores.add(Score("Placeholder5",0,65.0F))
-
-            Log.d("LEADERBOARD", e.toString())
-        }
-
-
-        //scores.add(Score("Placeholder1",1500,70.0F))
-        //scores.add(Score("Placeholder2",1500,69.0F))
-        //scores.add(Score("Placeholder3",1500,69.99F))
-        //scores.add(Score("Placeholder4",890,80.0F))
-        //scores.add(Score("Placeholder5",720,65.0F))
+        val db = DatabaseManager(this)
+        val scores = db.getData()
 
         return scores
     }
 
-    val scores=dataLoad()
     lateinit var scoresLayout:LinearLayout
 
     fun createStdTextView(string:String,lp:LinearLayout.LayoutParams):TextView
@@ -83,11 +47,9 @@ class LeaderboardActivity : AppCompatActivity()
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
-
-        db = DatabaseManager(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_leaderboard)
-
+        val scores=dataLoad()
         scoresLayout= findViewById(R.id.scoresLayout)
 
         for(score in scores)
@@ -109,6 +71,7 @@ class LeaderboardActivity : AppCompatActivity()
             scoresLayout.addView(hr)
         }
     }
+
 
 
 }

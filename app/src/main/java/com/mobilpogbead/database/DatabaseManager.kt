@@ -21,10 +21,10 @@ class DatabaseManager(context: Context?): SQLiteOpenHelper(context, "invfromspac
 
     override fun onCreate(p0: SQLiteDatabase?)
     {
-        val db: SQLiteDatabase = this.writableDatabase
+        //val db: SQLiteDatabase = this.writableDatabase
         val query = "CREATE TABLE IF NOT EXISTS" + this.DB_TABLE + " (" + this.PLAYERDATA_USERNAME + " TEXT, " + this.PLAYERDATA_SCORE + " INTEGER, "+ this.PLAYERDATA_TIME +" REAL)"
         //db.execSQL(query)
-        db.close()
+        //db.close()
         Log.d("DATABASE", "onCeate")
     }
 
@@ -35,27 +35,34 @@ class DatabaseManager(context: Context?): SQLiteOpenHelper(context, "invfromspac
         Log.d("DATABASE", "onUpgrade")
     }
 
-    fun getData(): Cursor
+    fun getData():ArrayList<Score>
     {
+        val scores=ArrayList<Score>()
+
+        createTable()
 
         val db: SQLiteDatabase = this.readableDatabase
-        val err: Cursor
+
         try {
+            val cursor = db.rawQuery("SELECT * FROM " + this.DB_TABLE, null)
+            if (cursor.moveToFirst())
+            {
+                do {
+                    val name: String = cursor.getString(0)
+                    val score: Int = cursor.getInt(1)
+                    val time: Float = cursor.getFloat(2)
 
-            createTable()
-            val result: Cursor
-
-            result = db.rawQuery("SELECT * FROM " + this.DB_TABLE, null)
+                    scores.add(Score(name, score, time))
+                } while (cursor.moveToNext())
+            }
             db.close()
-            return result;
-
         }
         catch (e: SQLiteException)
         {
             Log.d("DATABASE", e.toString())
-            err = db.rawQuery("SELECT 2/3", null)
+            //err = db.rawQuery("SELECT 2/3", null)
         }
-        return err
+        return scores
     }
 
     fun setNewScore(data: Score)
