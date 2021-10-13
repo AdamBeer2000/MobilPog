@@ -29,6 +29,10 @@ class Model(val boundaries:Boundaries)
 
     var right:Boolean=true
     var left:Boolean=false
+    var timeStart:Long=System.currentTimeMillis()
+
+    fun getCurrTimeMillis()=System.currentTimeMillis()-timeStart
+
 
     private fun initState()
     {
@@ -207,7 +211,6 @@ class Model(val boundaries:Boundaries)
                 if(obj is Enemy)
                 {
                     pointCounter+= (obj as Enemy).point
-                    obj.killit()
                 }
 
                 Log.d("Point system","Points : $pointCounter")
@@ -221,7 +224,6 @@ class Model(val boundaries:Boundaries)
         if(spaceship?.isDead() == true)
         {
             pointCounter+= spaceship?.point!!
-            spaceship?.killit()
             spaceship=null
         }
     }
@@ -231,6 +233,7 @@ class Model(val boundaries:Boundaries)
         enemys.remove(obj)
         playerBullets.remove(obj)
         enemyBullets.remove(obj)
+        barricades.remove(obj)
         if(obj is Spaceship)spaceship=null
     }
 
@@ -246,5 +249,13 @@ class Model(val boundaries:Boundaries)
                 safeRemove(obj)
             }
         }
+    }
+    fun cleanAll()
+    {
+        for(obj in objects)
+        {
+            safeRemove(obj)
+        }
+        objects.clear()
     }
 }

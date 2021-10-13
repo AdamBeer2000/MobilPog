@@ -17,6 +17,7 @@ import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintSet
 import com.mobilpogbead.controller.Controller
 import com.mobilpogbead.entity.SingletonEntityFactory
+import com.mobilpogbead.entity.enemies.Enemy
 import com.mobilpogbead.model.Boundaries
 import java.util.*
 import java.util.concurrent.locks.ReentrantLock
@@ -42,9 +43,15 @@ class MainActivity : AppCompatActivity() {
     lateinit var timeCounter:TextView
     lateinit var gameOverTime:TextView
 
-    var timeStart:Long=0L
+    var currTime=0L
 
     val lock = ReentrantLock()
+    var onHold:Boolean = false
+
+    init
+    {
+        Enemy.clearEnemyCash()
+    }
 
     private fun loadResources()
     {
@@ -105,6 +112,7 @@ class MainActivity : AppCompatActivity() {
     {
         val name:String= gamerName.text.toString()
         val points:Int=controller.model.pointCounter
+        val time:Float=currTime/1000F
 
         //todo Adatbázis hozzáad
         
@@ -116,6 +124,7 @@ class MainActivity : AppCompatActivity() {
     {
         val name:String= gamerName.text.toString()
         val points:Int=controller.model.pointCounter
+        val time:Float=currTime/1000F
 
         //todo Adatbázis hozzáad
 
@@ -186,7 +195,6 @@ class MainActivity : AppCompatActivity() {
     override fun onStart()
     {
         super.onStart()
-        timeStart=System.currentTimeMillis()
         mTimer = Timer()
         mTimer.schedule(object : TimerTask()
         {
@@ -197,6 +205,7 @@ class MainActivity : AppCompatActivity() {
                         Log.d("onstart","update")
                         try
                         {
+                            //if(onHold)
                             if(controller.model.winCheckh()||controller.model.failCheckh())
                             {
                                 gameOver()
@@ -221,7 +230,9 @@ class MainActivity : AppCompatActivity() {
                                     controller.model.cleanObjects()
                                 }
                                 lock.unlock()
-                                timeCounter.text="Time: ${(System.currentTimeMillis()-timeStart)/1000}." + "${((System.currentTimeMillis()-timeStart)%1000)} s"
+                                currTime=controller.model.getCurrTimeMillis()
+
+                                timeCounter.text="Time: ${currTime/1000.0}s"
                                 Log.d("Stat","progress:$progress nano")
                                 Log.d("Stat","move:$move nano")
                                 Log.d("Stat","update:$update nano")
@@ -254,6 +265,19 @@ class MainActivity : AppCompatActivity() {
     fun onTouch(view: View) {
         Log.d("TOUCH", "MainActivity - touched")
         controller.model.shoot()
+    }
+
+    override fun onPause()
+    {
+        Log.d("Life","Pause")
+        super.onPause()
+        mTimer.cancel()
+    }
+
+    override fun onResume()
+    {
+        Log.d("Life","Resume")
+        super.onResume()
     }
 
 }
