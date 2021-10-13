@@ -132,6 +132,7 @@ class MainActivity : AppCompatActivity() {
         val time:Float=currTime/1000F
 
         //todo Adatbázis hozzáad
+        this.setData(Score(name, points, time))
 
         val i=Intent(this,MainActivity::class.java)
         startActivity(i)
