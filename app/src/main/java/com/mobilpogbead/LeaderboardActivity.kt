@@ -18,21 +18,35 @@ import com.mobilpogbead.database.Score
 class LeaderboardActivity : AppCompatActivity()
 {
 
+    private lateinit var db: DatabaseManager
+
     fun dataLoad():ArrayList<Score>
     {
         //todo adatb lekérdezés
+        db = DatabaseManager(this)
+        val cursor = db.getData()
         val scores=ArrayList<Score>()
 
-        scores.add(Score("Placeholder1",1500,70.0F))
-        scores.add(Score("Placeholder2",1500,69.0F))
-        scores.add(Score("Placeholder3",1500,69.99F))
-        scores.add(Score("Placeholder4",890,80.0F))
-        scores.add(Score("Placeholder5",720,65.0F))
+        if (cursor.moveToFirst()) {
+            do {
+                val name: String = cursor.getString(0)
+                val score: Int = cursor.getInt(1)
+                val time: Float = cursor.getFloat(2)
+
+                scores.add(Score(name, score, time))
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+
+        //scores.add(Score("Placeholder1",1500,70.0F))
+        //scores.add(Score("Placeholder2",1500,69.0F))
+        //scores.add(Score("Placeholder3",1500,69.99F))
+        //scores.add(Score("Placeholder4",890,80.0F))
+        //scores.add(Score("Placeholder5",720,65.0F))
 
         return scores
     }
 
-    private lateinit var db: DatabaseManager
     val scores=dataLoad()
     lateinit var scoresLayout:LinearLayout
 
