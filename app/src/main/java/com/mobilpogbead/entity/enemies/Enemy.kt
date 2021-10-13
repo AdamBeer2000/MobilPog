@@ -13,6 +13,8 @@ open class Enemy(x: Int, y: Int, gfx:ArrayList<Bitmap>, hitbox:Array<BooleanArra
     override var hp: Int = 1
     open var point=10
 
+
+
     companion object
     {
         @JvmStatic
@@ -25,15 +27,10 @@ open class Enemy(x: Int, y: Int, gfx:ArrayList<Bitmap>, hitbox:Array<BooleanArra
         }
 
         @JvmStatic
-        fun kill()
+        fun clearEnemyCash()
         {
-            enemyNum--
+            enemyNum=0
         }
-    }
-
-    fun killit()
-    {
-        kill()
     }
 
     init
@@ -48,9 +45,18 @@ open class Enemy(x: Int, y: Int, gfx:ArrayList<Bitmap>, hitbox:Array<BooleanArra
         }
     }
 
+    override fun hit(other: Entity) {
+        super.hit(other)
+        if(isDead())
+        {
+            enemyNum--
+        }
+    }
+
     private fun adjustedSpeed():Int
     {
         return speed+((55-enemyNum)/3)
+        //return speed
     }
 
     override fun moveRight()
