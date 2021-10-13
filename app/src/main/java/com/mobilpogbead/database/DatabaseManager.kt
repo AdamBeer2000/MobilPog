@@ -37,14 +37,25 @@ class DatabaseManager(context: Context?): SQLiteOpenHelper(context, "invfromspac
 
     fun getData(): Cursor
     {
-        createTable()
-        val result: Cursor;
 
         val db: SQLiteDatabase = this.readableDatabase
-        result = db.rawQuery("SELECT * FROM " + this.DB_TABLE, null)
+        val err: Cursor
+        try {
 
-        db.close()
-        return result;
+            createTable()
+            val result: Cursor
+
+            result = db.rawQuery("SELECT * FROM " + this.DB_TABLE, null)
+            db.close()
+            return result;
+
+        }
+        catch (e: SQLiteException)
+        {
+            Log.d("DATABASE", e.toString())
+            err = db.rawQuery("SELECT 2/3", null)
+        }
+        return err
     }
 
     fun setNewScore(data: Score)

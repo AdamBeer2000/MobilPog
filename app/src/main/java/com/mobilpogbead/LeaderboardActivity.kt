@@ -1,11 +1,13 @@
 package com.mobilpogbead
 
+import android.database.sqlite.SQLiteException
 import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Layout
 import android.util.AttributeSet
+import android.util.Log
 import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.LinearLayout
@@ -23,20 +25,35 @@ class LeaderboardActivity : AppCompatActivity()
     fun dataLoad():ArrayList<Score>
     {
         //todo adatb lekérdezés
-        db = DatabaseManager(this)
-        val cursor = db.getData()
-        val scores=ArrayList<Score>()
 
-        if (cursor.moveToFirst()) {
-            do {
-                val name: String = cursor.getString(0)
-                val score: Int = cursor.getInt(1)
-                val time: Float = cursor.getFloat(2)
+        val scores = ArrayList<Score>()
 
-                scores.add(Score(name, score, time))
-            } while (cursor.moveToNext())
+        try {
+            db = DatabaseManager(this)
+            val cursor = db.getData()
+
+            if (cursor.moveToFirst()) {
+                do {
+                    val name: String = cursor.getString(0)
+                    val score: Int = cursor.getInt(1)
+                    val time: Float = cursor.getFloat(2)
+
+                    scores.add(Score(name, score, time))
+                } while (cursor.moveToNext())
+            }
+            cursor.close()
         }
-        cursor.close()
+        catch (e: SQLiteException)
+        {
+            scores.add(Score("Placeholder1",0, 70.0F))
+            scores.add(Score("Placeholder2",0,69.0F))
+            scores.add(Score("Placeholder3",0,69.99F))
+            scores.add(Score("Placeholder4",0,80.0F))
+            scores.add(Score("Placeholder5",0,65.0F))
+
+            Log.d("LEADERBOARD", e.toString())
+        }
+
 
         //scores.add(Score("Placeholder1",1500,70.0F))
         //scores.add(Score("Placeholder2",1500,69.0F))
