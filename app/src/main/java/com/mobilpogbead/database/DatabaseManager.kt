@@ -24,6 +24,7 @@ class DatabaseManager(context: Context?): SQLiteOpenHelper(context, "invfromspac
         val db: SQLiteDatabase = this.writableDatabase
         val query = "CREATE TABLE IF NOT EXISTS" + this.DB_TABLE + " (" + this.PLAYERDATA_USERNAME + " TEXT, " + this.PLAYERDATA_SCORE + " INTEGER, "+ this.PLAYERDATA_TIME +" REAL)"
         //db.execSQL(query)
+        db.close()
         Log.d("DATABASE", "onCeate")
     }
 
@@ -34,15 +35,16 @@ class DatabaseManager(context: Context?): SQLiteOpenHelper(context, "invfromspac
         Log.d("DATABASE", "onUpgrade")
     }
 
-    fun getData(): ArrayList<Score>
+    fun getData(): Cursor
     {
         createTable()
-        val scores = ArrayList<Score>();
+        val result: Cursor;
 
         val db: SQLiteDatabase = this.readableDatabase
+        result = db.rawQuery("SELECT * FROM " + this.DB_TABLE, null)
 
-
-        return scores;
+        db.close()
+        return result;
     }
 
     fun setNewScore(data: Score)
@@ -68,6 +70,8 @@ class DatabaseManager(context: Context?): SQLiteOpenHelper(context, "invfromspac
             {
                 Log.d("DATABASE", "New Score insert - successful");
             }
+
+            db.close()
         }
         catch (e: SQLiteException)
         {
@@ -87,5 +91,6 @@ class DatabaseManager(context: Context?): SQLiteOpenHelper(context, "invfromspac
         {
             Log.d("DATABASE", e.toString())
         }
+        db.close()
     }
 }
