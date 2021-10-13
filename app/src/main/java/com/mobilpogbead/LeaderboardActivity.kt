@@ -1,6 +1,7 @@
 package com.mobilpogbead
 
 import android.graphics.Color
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Layout
@@ -9,11 +10,14 @@ import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.core.view.setPadding
+import com.mobilpogbead.database.DatabaseManager
 import com.mobilpogbead.database.Score
 
 class LeaderboardActivity : AppCompatActivity()
 {
+
     fun dataLoad():ArrayList<Score>
     {
         //todo adatb lekérdezés
@@ -27,6 +31,8 @@ class LeaderboardActivity : AppCompatActivity()
 
         return scores
     }
+
+    private lateinit var db: DatabaseManager
     val scores=dataLoad()
     lateinit var scoresLayout:LinearLayout
 
@@ -43,8 +49,11 @@ class LeaderboardActivity : AppCompatActivity()
         return tx1
     }
 
+
     override fun onCreate(savedInstanceState: Bundle?)
     {
+
+        db = DatabaseManager(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_leaderboard)
 

@@ -16,6 +16,8 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintSet
 import com.mobilpogbead.controller.Controller
+import com.mobilpogbead.database.DatabaseManager
+import com.mobilpogbead.database.Score
 import com.mobilpogbead.entity.SingletonEntityFactory
 import com.mobilpogbead.entity.enemies.Enemy
 import com.mobilpogbead.model.Boundaries
@@ -24,6 +26,8 @@ import java.util.concurrent.locks.ReentrantLock
 import kotlin.system.measureNanoTime
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var db: DatabaseManager
 
     lateinit var controller:Controller
     lateinit var mTimer:Timer
@@ -115,6 +119,7 @@ class MainActivity : AppCompatActivity() {
         val time:Float=currTime/1000F
 
         //todo Adatbázis hozzáad
+        this.setData(Score(name, points, time))
         
         val i=Intent(this,MainMenu::class.java)
         startActivity(i)
@@ -134,6 +139,8 @@ class MainActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        db = DatabaseManager(this)
         super.onCreate(savedInstanceState)
         loadResources()
 
@@ -260,6 +267,11 @@ class MainActivity : AppCompatActivity() {
                     or View.SYSTEM_UI_FLAG_FULLSCREEN
                     or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
         }
+    }
+
+    fun setData(setScore: Score)
+    {
+        db.setNewScore(setScore)
     }
 
     fun onTouch(view: View) {
