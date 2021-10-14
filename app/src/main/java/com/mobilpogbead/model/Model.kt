@@ -6,6 +6,7 @@ import com.mobilpogbead.entity.SingletonEntityFactory
 import com.mobilpogbead.entity.bullet.Bullet
 import com.mobilpogbead.entity.bullet.EnemyBullet
 import com.mobilpogbead.entity.bullet.PlayerBullet
+import com.mobilpogbead.settings.DifficultiSettings
 import java.lang.Math.abs
 import java.time.LocalDateTime
 import java.util.*
@@ -29,8 +30,13 @@ class Model(val boundaries:Boundaries)
 
     var right:Boolean=true
     var left:Boolean=false
+
     var timeStart:Long=System.currentTimeMillis()
 
+    var playerShootLastTime:Long=0
+    var enemyShootLastTime:Long=0
+
+    var difficulti=DifficultiSettings.getSetting()
     fun getCurrTimeMillis()=System.currentTimeMillis()-timeStart
 
 
@@ -66,8 +72,8 @@ class Model(val boundaries:Boundaries)
             shiftx+=2*barref.width
         }
         objects.add(player)
-        var right=true
-        var left=false
+        right=true
+        left=false
     }
 
     init
@@ -77,26 +83,26 @@ class Model(val boundaries:Boundaries)
 
     fun enemyShoot()
     {
-        if(enemyBullets.count()<=4&&!player.isDead())
+        if(enemyBullets.count()<difficulti.enemyBulletNum&&!player.isDead()&&System.currentTimeMillis()-enemyShootLastTime>=difficulti.enemyShootIntervalMilli)
         {
             val enemy=enemys[abs(Random().nextInt())%enemys.size]
             val bullet: EnemyBullet =entityFactory.createEntity<EnemyBullet>(enemy.x,enemy.y) as EnemyBullet
             objects.add(bullet)
             enemyBullets.add(bullet)
             bullets.add(bullet)
+            enemyShootLastTime=System.currentTimeMillis()
         }
     }
 
-    var shoot:Long=System.currentTimeMillis()
     fun shoot()
     {
-        if(playerBullets.count()<=2&&!player.isDead()&&System.currentTimeMillis()-shoot>=1000)
+        if(playerBullets.count()<difficulti.playerBulletNum&&!player.isDead()&&System.currentTimeMillis()-playerShootLastTime>=difficulti.playerShootIntervalMilli)
         {
             val bullet: PlayerBullet =entityFactory.createEntity<PlayerBullet>(player.x+25,player.y-25) as PlayerBullet
             objects.add(bullet)
             playerBullets.add(bullet)
             bullets.add(bullet)
-            shoot=System.currentTimeMillis()
+            playerShootLastTime=System.currentTimeMillis()
         }
     }
 
@@ -210,7 +216,7 @@ class Model(val boundaries:Boundaries)
             {
                 if(obj is Enemy)
                 {
-                    pointCounter+= (obj as Enemy).point
+                    pointCounter+= (obj as Enemy).getPoint()
                 }
 
                 Log.d("Point system","Points : $pointCounter")
@@ -223,7 +229,7 @@ class Model(val boundaries:Boundaries)
         }
         if(spaceship?.isDead() == true)
         {
-            pointCounter+= spaceship?.point!!
+            pointCounter+= spaceship?.getPoint()!!
             spaceship=null
         }
     }

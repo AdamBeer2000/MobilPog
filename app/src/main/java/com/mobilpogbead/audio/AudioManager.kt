@@ -3,6 +3,7 @@ package com.mobilpogbead.audio
 import android.content.Context
 import android.media.MediaPlayer
 import com.mobilpogbead.R
+import com.mobilpogbead.settings.AudioSettings
 
 class AudioManager(private val context: Context)
 {
@@ -10,16 +11,19 @@ class AudioManager(private val context: Context)
 
     fun playMenuMusic()
     {
-        if(mediaPlayer == null)
+        if(AudioSettings.MusicStateSetting==AudioSettings.MusicState.On)
         {
-            mediaPlayer = MediaPlayer.create(context, R.raw.menu)
-            mediaPlayer!!.isLooping = false;
-            mediaPlayer!!.start()
-        }
-        else
-        {
-            mediaPlayer!!.isLooping = false;
-            mediaPlayer!!.start()
+            if(mediaPlayer == null)
+            {
+                mediaPlayer = MediaPlayer.create(context, R.raw.menu_music)
+                mediaPlayer!!.isLooping = false;
+                mediaPlayer!!.start()
+            }
+            else
+            {
+                mediaPlayer!!.isLooping = false;
+                mediaPlayer!!.start()
+            }
         }
     }
 
@@ -27,7 +31,7 @@ class AudioManager(private val context: Context)
     {
         if(mediaPlayer == null)
         {
-            mediaPlayer = MediaPlayer.create(context, R.raw.boom)
+            //mediaPlayer = MediaPlayer.create(context, R.raw.boom)
             mediaPlayer!!.isLooping = false;
             mediaPlayer!!.start()
         }
@@ -42,7 +46,7 @@ class AudioManager(private val context: Context)
     {
         if(mediaPlayer == null)
         {
-            mediaPlayer = MediaPlayer.create(context, R.raw.shoot)
+            //mediaPlayer = MediaPlayer.create(context, R.raw.shoot)
             mediaPlayer!!.isLooping = false;
             mediaPlayer!!.start()
         }
@@ -57,7 +61,7 @@ class AudioManager(private val context: Context)
     {
         if(mediaPlayer == null)
         {
-            mediaPlayer = MediaPlayer.create(context, R.raw.win)
+            //mediaPlayer = MediaPlayer.create(context, R.raw.win)
             mediaPlayer!!.isLooping = false;
             mediaPlayer!!.start()
         }
@@ -72,7 +76,7 @@ class AudioManager(private val context: Context)
     {
         if(mediaPlayer == null)
         {
-            mediaPlayer = MediaPlayer.create(context, R.raw.lose)
+            //mediaPlayer = MediaPlayer.create(context, R.raw.lose)
             mediaPlayer!!.isLooping = false;
             mediaPlayer!!.start()
         }

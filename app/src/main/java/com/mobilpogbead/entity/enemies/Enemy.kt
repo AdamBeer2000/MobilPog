@@ -3,17 +3,16 @@ package com.mobilpogbead.entity.enemies
 import android.graphics.Bitmap
 import android.util.Log
 import com.mobilpogbead.entity.Entity
+import com.mobilpogbead.settings.DifficultiSettings
 import java.util.ArrayList
 import kotlin.math.min
 
 
-open class Enemy(x: Int, y: Int, gfx:ArrayList<Bitmap>, hitbox:Array<BooleanArray>): Entity(x, y,gfx,hitbox)
+abstract class Enemy(x: Int, y: Int, gfx:ArrayList<Bitmap>, hitbox:Array<BooleanArray>): Entity(x, y,gfx,hitbox)
 {
     override var speed: Int = 5
     override var hp: Int = 1
-    open var point=10
-
-
+    abstract protected var point:Int
 
     companion object
     {
@@ -43,6 +42,12 @@ open class Enemy(x: Int, y: Int, gfx:ArrayList<Bitmap>, hitbox:Array<BooleanArra
         {
             enemyNum=1
         }
+    }
+
+    @JvmName("getPoint1")
+    fun getPoint():Int
+    {
+        return point*DifficultiSettings.diffisultiSetting.mult
     }
 
     override fun hit(other: Entity) {
