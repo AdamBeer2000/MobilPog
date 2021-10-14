@@ -7,6 +7,7 @@ import com.mobilpogbead.R
 class AudioManager(private val context: Context)
 {
     var mediaPlayer: MediaPlayer? = null
+    var secondaryPlayer: MediaPlayer? = null
 
     fun playMenuMusic()
     {
@@ -40,7 +41,7 @@ class AudioManager(private val context: Context)
 
     fun playShoot()
     {
-        if(mediaPlayer == null)
+        if (mediaPlayer == null)
         {
             mediaPlayer = MediaPlayer.create(context, R.raw.shoot)
             mediaPlayer!!.isLooping = false;
@@ -48,9 +49,27 @@ class AudioManager(private val context: Context)
         }
         else
         {
-            mediaPlayer!!.isLooping = false;
-            mediaPlayer!!.start()
+            if(mediaPlayer!!.isPlaying)
+            {
+                if (secondaryPlayer == null)
+                {
+                    secondaryPlayer = MediaPlayer.create(context, R.raw.shoot)
+                    secondaryPlayer!!.isLooping = false;
+                    secondaryPlayer!!.start()
+                }
+                else
+                {
+                    secondaryPlayer!!.isLooping = false;
+                    secondaryPlayer!!.start()
+                }
+            }
+            else
+            {
+                mediaPlayer!!.isLooping = false;
+                mediaPlayer!!.start()
+            }
         }
+
     }
 
     fun playWin()

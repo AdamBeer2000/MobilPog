@@ -47,8 +47,8 @@ class View(private val model:Model,private var pointCounter:TextView,private var
             }
             else
             {
-                canvas.drawBitmap(deathAnim, obj.x.toFloat(), obj.y.toFloat(), null)
                 audio.playExplosion()
+                canvas.drawBitmap(deathAnim, obj.x.toFloat(), obj.y.toFloat(), null)
             }
         }
         imgv.setImageBitmap(renderedImage)
