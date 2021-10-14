@@ -84,6 +84,9 @@ class Model(val boundaries:Boundaries, val context: Context)
     {
         if(enemyBullets.count()<=4&&!player.isDead())
         {
+            val enemyAudio = AudioManager(context)
+            enemyAudio.playShoot()
+
             val enemy=enemys[abs(Random().nextInt())%enemys.size]
             val bullet: EnemyBullet =entityFactory.createEntity<EnemyBullet>(enemy.x,enemy.y) as EnemyBullet
             objects.add(bullet)
