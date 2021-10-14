@@ -20,21 +20,21 @@ object DifficultiSettings
         when(diffisultiSetting)
         {
             Difficulti.Easy->return DifficultiSetting(Difficulti.Easy,5,5,1000,3,1000,
-                "Point multiplayer:${diffisultiSetting.mult}\n" +
+                "Score multiplayer: ${diffisultiSetting.mult}\n" +
                         "Lives: 5\n" +
                         "Bullet number: 5\n" +
                         "Time between two shots: 1 sec\n" +
                         "Enemy's bullet number: 3\n" +
                         "Enemy's Time between two shots: 1 sec\n")
             Difficulti.Medium->return DifficultiSetting(Difficulti.Medium,3,4,2000,4,500,
-                "Point multiplayer:${diffisultiSetting.mult}\n" +
+                "Score multiplayer: ${diffisultiSetting.mult}\n" +
                         "Lives: 3\n" +
                         "Bullet number: 4\n" +
                         "Time between two shots: 2 sec\n" +
                         "Enemy's bullet number: 4\n" +
                         "Enemy's Time between two shots: half sec\n")
             Difficulti.Hard->return DifficultiSetting(Difficulti.Hard,1,3,3000,5,250,
-                "Point multiplayer:${diffisultiSetting.mult}\n" +
+                "Score multiplayer: ${diffisultiSetting.mult}\n" +
                         "Lives: 1\n" +
                         "Bullet number: 3\n" +
                         "Time between two shots: 3 sec\n" +
