@@ -24,7 +24,7 @@ class LeaderboardActivity : AppCompatActivity()
         //todo adatb lekérdezés
 
         val db = DatabaseManager(this)
-        val scores = db.getData()
+        val scores = db.getBestTen()
 
         return scores
     }

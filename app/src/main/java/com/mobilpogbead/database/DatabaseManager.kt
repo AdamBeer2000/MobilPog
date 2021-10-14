@@ -97,6 +97,66 @@ class DatabaseManager(context: Context?): SQLiteOpenHelper(context, "invfromspac
         }
     }
 
+    fun getHighscore(): ArrayList<Score>
+    {
+        val scores=ArrayList<Score>()
+
+        createTable()
+
+        val db: SQLiteDatabase = this.readableDatabase
+
+        try {
+            val cursor = db.rawQuery("SELECT * FROM " + this.DB_TABLE + " ORDER BY " + this.PLAYERDATA_SCORE + " DESC LIMIT 1", null)
+            if (cursor.moveToFirst())
+            {
+                do {
+                    val name: String = cursor.getString(0)
+                    val score: Int = cursor.getInt(1)
+                    val time: Float = cursor.getFloat(2)
+
+                    scores.add(Score(name, score, time))
+                } while (cursor.moveToNext())
+            }
+            db.close()
+        }
+        catch (e: SQLiteException)
+        {
+            Log.d("DATABASE", e.toString())
+            //err = db.rawQuery("SELECT 2/3", null)
+        }
+        return scores
+    }
+
+    fun getBestTen(): ArrayList<Score>
+    {
+        val scores=ArrayList<Score>()
+
+        createTable()
+
+        val db: SQLiteDatabase = this.readableDatabase
+
+        try {
+            val cursor = db.rawQuery("SELECT * FROM " + this.DB_TABLE + " ORDER BY " + this.PLAYERDATA_SCORE + " DESC LIMIT 10", null)
+            if (cursor.moveToFirst())
+            {
+                do {
+                    val name: String = cursor.getString(0)
+                    val score: Int = cursor.getInt(1)
+                    val time: Float = cursor.getFloat(2)
+
+                    scores.add(Score(name, score, time))
+                } while (cursor.moveToNext())
+            }
+            db.close()
+        }
+        catch (e: SQLiteException)
+        {
+            Log.d("DATABASE", e.toString())
+            //err = db.rawQuery("SELECT 2/3", null)
+        }
+        return scores
+    }
+
     private fun createTable()
     {
         val db: SQLiteDatabase = this.writableDatabase
