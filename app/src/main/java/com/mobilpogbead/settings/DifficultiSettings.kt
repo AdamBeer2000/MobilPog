@@ -20,28 +20,26 @@ object DifficultiSettings
         when(diffisultiSetting)
         {
             Difficulti.Easy->return DifficultiSetting(Difficulti.Easy,5,5,1000,3,1000,
-                "Pont szórzó:${diffisultiSetting.mult}\n" +
-                        "Életek száma: 5\nLövedékek száma: 5\n" +
-                        "Lövések közti idő: 1 másodperc\n" +
-                        "Ellenséges lövedékek száma: 3\n" +
-                        "Ellenségek lövések köztt idő:\n" +
-                        "Egy másodperc")
+                "Point multiplayer:${diffisultiSetting.mult}\n" +
+                        "Lives: 5\n" +
+                        "Bullet number: 5\n" +
+                        "Time between two shots: 1 sec\n" +
+                        "Enemy's bullet number: 3\n" +
+                        "Enemy's Time between two shots: 1 sec\n")
             Difficulti.Medium->return DifficultiSetting(Difficulti.Medium,3,4,2000,4,500,
-                "Pont szórzó:${diffisultiSetting.mult}\n" +
-                        "Életek száma: 3\nLövedékek száma: 4\n" +
-                        "Lövések közti idő: 2 másodperc\n" +
-                        "Ellenséges lövedékek száma: 4\n" +
-                        "Ellenségek lövések közti idő:\n" +
-                        "Fél másodperc")
+                "Point multiplayer:${diffisultiSetting.mult}\n" +
+                        "Lives: 3\n" +
+                        "Bullet number: 4\n" +
+                        "Time between two shots: 2 sec\n" +
+                        "Enemy's bullet number: 4\n" +
+                        "Enemy's Time between two shots: half sec\n")
             Difficulti.Hard->return DifficultiSetting(Difficulti.Hard,1,3,3000,5,250,
-                "Pont szórzó:${diffisultiSetting.mult}\n" +
-                        "Életek száma: 1\n" +
-                        "Lövedékek száma: 3\n" +
-                        "Lövések közti idő: 3 másodperc\n" +
-                        "Lövések közti idő: 3 másodperc\n" +
-                        "Ellenséges lövedékek száma: 5\n" +
-                        "Ellenségek lövések közti idő:\n" +
-                        "Negyed másodperc")
+                "Point multiplayer:${diffisultiSetting.mult}\n" +
+                        "Lives: 1\n" +
+                        "Bullet number: 3\n" +
+                        "Time between two shots: 3 sec\n" +
+                        "Enemy's bullet number: 5\n" +
+                        "Enemy's Time between two shots: 1/4 sec\n")
         }
     }
 }
