@@ -1,5 +1,7 @@
 package com.mobilpogbead.model
+import android.content.Context
 import android.util.Log
+import com.mobilpogbead.audio.AudioManager
 import com.mobilpogbead.entity.*
 import com.mobilpogbead.entity.enemies.*
 import com.mobilpogbead.entity.SingletonEntityFactory
@@ -11,7 +13,7 @@ import java.time.LocalDateTime
 import java.util.*
 import kotlin.collections.ArrayList
 
-class Model(val boundaries:Boundaries)
+class Model(val boundaries:Boundaries, val context: Context)
 {
     private val entityFactory=SingletonEntityFactory.getInstance()
 
@@ -98,6 +100,8 @@ class Model(val boundaries:Boundaries)
             bullets.add(bullet)
             shoot=System.currentTimeMillis()
         }
+        val audio = AudioManager(context)
+        audio.playShoot()
     }
 
     fun winCheckh():Boolean
