@@ -12,7 +12,7 @@ class AudioManager(private val context: Context)
     {
         if(mediaPlayer == null)
         {
-            mediaPlayer = MediaPlayer.create(context, R.raw.believer)
+            mediaPlayer = MediaPlayer.create(context, R.raw.menu_music)
             mediaPlayer!!.isLooping = false;
             mediaPlayer!!.start()
         }

@@ -6,11 +6,12 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import java.util.*
-
+import com.mobilpogbead.audio.AudioManager
 class MainMenu : AppCompatActivity()
 {
     val mTimer = Timer()
     lateinit var Title:ImageView
+    val au =AudioManager(this)
     fun toLeaderBoard(v:View)
     {
         startActivity(Intent(this,LeaderboardActivity::class.java))
@@ -25,5 +26,10 @@ class MainMenu : AppCompatActivity()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_menu)
         Title=findViewById(R.id.imageView2)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        au.playBeliever()
     }
 }
