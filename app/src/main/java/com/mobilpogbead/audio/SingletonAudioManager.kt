@@ -16,7 +16,7 @@ object SingletonAudioManager
 
     private val audioEffects=ArrayList<MediaPlayer>()
     private var menuMusic:MediaPlayer?=null
-    private var volume:Float=0.5F
+    private var volume:Float=AudioSettings.audioVolume
 
     fun playMenuMusic(context:Context)
     {
