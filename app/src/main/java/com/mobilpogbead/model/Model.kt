@@ -10,6 +10,7 @@ import com.mobilpogbead.entity.bullet.EnemyBullet
 import com.mobilpogbead.entity.bullet.PlayerBullet
 import com.mobilpogbead.settings.DifficultiSettings
 import java.lang.Math.abs
+import java.lang.Math.min
 import java.time.LocalDateTime
 import java.util.*
 import kotlin.collections.ArrayList
@@ -86,7 +87,7 @@ class Model(val boundaries:Boundaries, val context: Context)
 
     fun enemyShoot()
     {
-        if(enemyBullets.count()<difficulti.enemyBulletNum&&!player.isDead()&&System.currentTimeMillis()-enemyShootLastTime>=difficulti.enemyShootIntervalMilli)
+        if(enemyBullets.count()< min(difficulti.enemyBulletNum,enemys.size)&&!player.isDead()&&System.currentTimeMillis()-enemyShootLastTime>=difficulti.enemyShootIntervalMilli)
         {
             val enemyAudio = AudioManager(context)
             enemyAudio.playShoot()
