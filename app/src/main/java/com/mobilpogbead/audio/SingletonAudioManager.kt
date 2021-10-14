@@ -16,6 +16,7 @@ object SingletonAudioManager
 
     private val audioEffects=ArrayList<MediaPlayer>()
     private var menuMusic:MediaPlayer?=null
+    private var volume:Float=0.5F
 
     fun playMenuMusic(context:Context)
     {
@@ -53,6 +54,7 @@ object SingletonAudioManager
             audioEffects.remove(player)
             Log.d("MediaPlayer","Removed explosion")
         }
+        mediaPlayer.setVolume(volume,volume)
         audioEffects.add(mediaPlayer)
     }
 
@@ -66,6 +68,7 @@ object SingletonAudioManager
             audioEffects.remove(player)
             Log.d("MediaPlayer","Removed shoot")
         }
+        mediaPlayer.setVolume(volume,volume)
         audioEffects.add(mediaPlayer)
     }
 
@@ -79,6 +82,7 @@ object SingletonAudioManager
             audioEffects.remove(player)
             Log.d("MediaPlayer","Removed win")
         }
+        mediaPlayer.setVolume(volume,volume)
         audioEffects.add(mediaPlayer)
     }
 
@@ -92,6 +96,7 @@ object SingletonAudioManager
             audioEffects.remove(player)
             Log.d("MediaPlayer","Removed lose")
         }
+        mediaPlayer.setVolume(volume,volume)
         audioEffects.add(mediaPlayer)
     }
 
@@ -102,5 +107,6 @@ object SingletonAudioManager
             mediaPlayer.setVolume(value,value)
         }
         menuMusic?.setVolume(value,value)
+        this.volume=value
     }
 }
