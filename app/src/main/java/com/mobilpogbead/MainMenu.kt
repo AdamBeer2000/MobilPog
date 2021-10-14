@@ -30,6 +30,6 @@ class MainMenu : AppCompatActivity()
 
     override fun onStart() {
         super.onStart()
-        au.playBeliever()
+        au.playMenuMusic()
     }
 }

@@ -12,22 +12,22 @@ class AudioManager(private val context: Context)
     {
         if(mediaPlayer == null)
         {
-            mediaPlayer = MediaPlayer.create(context, R.raw.menu)
-            mediaPlayer!!.isLooping = false;
+            mediaPlayer = MediaPlayer.create(context, R.raw.menu_music)
+            mediaPlayer!!.isLooping = true;
             mediaPlayer!!.start()
         }
         else
         {
-            mediaPlayer!!.isLooping = false;
+            mediaPlayer!!.isLooping = true;
             mediaPlayer!!.start()
         }
     }
 
-    fun playBoom()
+    fun playExplosion()
     {
         if(mediaPlayer == null)
         {
-            mediaPlayer = MediaPlayer.create(context, R.raw.boom)
+            mediaPlayer = MediaPlayer.create(context, R.raw.explosion)
             mediaPlayer!!.isLooping = false;
             mediaPlayer!!.start()
         }
