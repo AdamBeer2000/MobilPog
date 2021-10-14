@@ -23,8 +23,8 @@ class Controller(private var context: Context,var boundaries:Boundaries,
 {
     private lateinit var sensorManager: SensorManager;
 
-    val model=Model(boundaries)
-    val view=View(model,pointcounter,lifecounter,deathanim)
+    val model=Model(boundaries, context)
+    val view=View(model,pointcounter,lifecounter,deathanim, context)
 
     //var gyro_x: Double = 0.0
     //var gyro_y: Double = 0.0

@@ -20,10 +20,6 @@ class MainMenu : AppCompatActivity()
     {
         startActivity(Intent(this,MainActivity::class.java))
     }
-    fun toSettings(v:View)
-    {
-        startActivity(Intent(this,Settings::class.java))
-    }
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -34,5 +30,6 @@ class MainMenu : AppCompatActivity()
 
     override fun onStart() {
         super.onStart()
+        au.playMenuMusic()
     }
 }

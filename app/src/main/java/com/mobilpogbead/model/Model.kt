@@ -1,18 +1,19 @@
 package com.mobilpogbead.model
+import android.content.Context
 import android.util.Log
+import com.mobilpogbead.audio.AudioManager
 import com.mobilpogbead.entity.*
 import com.mobilpogbead.entity.enemies.*
 import com.mobilpogbead.entity.SingletonEntityFactory
 import com.mobilpogbead.entity.bullet.Bullet
 import com.mobilpogbead.entity.bullet.EnemyBullet
 import com.mobilpogbead.entity.bullet.PlayerBullet
-import com.mobilpogbead.settings.DifficultiSettings
 import java.lang.Math.abs
 import java.time.LocalDateTime
 import java.util.*
 import kotlin.collections.ArrayList
 
-class Model(val boundaries:Boundaries)
+class Model(val boundaries:Boundaries, val context: Context)
 {
     private val entityFactory=SingletonEntityFactory.getInstance()
 
@@ -30,13 +31,11 @@ class Model(val boundaries:Boundaries)
 
     var right:Boolean=true
     var left:Boolean=false
-
     var timeStart:Long=System.currentTimeMillis()
 
-    var playerShootLastTime:Long=0
-    var enemyShootLastTime:Long=0
+    val audio = AudioManager(context)
+    var result = 0
 
-    var difficulti=DifficultiSettings.getSetting()
     fun getCurrTimeMillis()=System.currentTimeMillis()-timeStart
 
 
@@ -72,8 +71,8 @@ class Model(val boundaries:Boundaries)
             shiftx+=2*barref.width
         }
         objects.add(player)
-        right=true
-        left=false
+        var right=true
+        var left=false
     }
 
     init
@@ -83,37 +82,58 @@ class Model(val boundaries:Boundaries)
 
     fun enemyShoot()
     {
-        if(enemyBullets.count()<difficulti.enemyBulletNum&&!player.isDead()&&System.currentTimeMillis()-enemyShootLastTime>=difficulti.enemyShootIntervalMilli)
+        if(enemyBullets.count()<=4&&!player.isDead())
         {
+            val enemyAudio = AudioManager(context)
+            enemyAudio.playShoot()
+
             val enemy=enemys[abs(Random().nextInt())%enemys.size]
             val bullet: EnemyBullet =entityFactory.createEntity<EnemyBullet>(enemy.x,enemy.y) as EnemyBullet
             objects.add(bullet)
             enemyBullets.add(bullet)
             bullets.add(bullet)
-            enemyShootLastTime=System.currentTimeMillis()
         }
     }
 
+    var shoot:Long=System.currentTimeMillis()
     fun shoot()
     {
-        if(playerBullets.count()<difficulti.playerBulletNum&&!player.isDead()&&System.currentTimeMillis()-playerShootLastTime>=difficulti.playerShootIntervalMilli)
+        if(playerBullets.count()<=2&&!player.isDead()&&System.currentTimeMillis()-shoot>=1000)
         {
+            audio.playShoot()
+
             val bullet: PlayerBullet =entityFactory.createEntity<PlayerBullet>(player.x+25,player.y-25) as PlayerBullet
             objects.add(bullet)
             playerBullets.add(bullet)
             bullets.add(bullet)
-            playerShootLastTime=System.currentTimeMillis()
+            shoot=System.currentTimeMillis()
         }
     }
 
     fun winCheckh():Boolean
     {
-        return enemys.size==0
+        return if(enemys.size==0)
+        {
+            result = 1
+            true
+        }
+        else
+        {
+            false
+        }
     }
 
     fun failCheckh():Boolean
     {
-        return player.isDead()
+        return if (player.isDead())
+        {
+            result = 2
+            true
+        }
+        else
+        {
+            false
+        }
     }
 
     fun progress()
@@ -198,7 +218,11 @@ class Model(val boundaries:Boundaries)
 
         for(bullet in enemyBullets)
         {
-            if(bullet.collision(player)) Log.d("Hit","Hit")
+            if(bullet.collision(player))
+            {
+                audio.playExplosion()
+                Log.d("Hit","Hit")
+            }
         }
 
         for(barr in barricades)
@@ -216,7 +240,7 @@ class Model(val boundaries:Boundaries)
             {
                 if(obj is Enemy)
                 {
-                    pointCounter+= (obj as Enemy).getPoint()
+                    pointCounter+= (obj as Enemy).point
                 }
 
                 Log.d("Point system","Points : $pointCounter")
@@ -229,7 +253,7 @@ class Model(val boundaries:Boundaries)
         }
         if(spaceship?.isDead() == true)
         {
-            pointCounter+= spaceship?.getPoint()!!
+            pointCounter+= spaceship?.point!!
             spaceship=null
         }
     }
