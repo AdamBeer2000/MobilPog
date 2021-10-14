@@ -32,6 +32,8 @@ class Settings : AppCompatActivity()
 
         difficultyInfoText=findViewById(R.id.difficoltyInfoText)
 
+        
+
         when(DifficultiSettings.diffisultiSetting)
         {
             DifficultiSettings.Difficulti.Easy->{

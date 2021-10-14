@@ -3,13 +3,12 @@ package com.mobilpogbead.audio
 import android.content.Context
 import android.media.MediaPlayer
 import com.mobilpogbead.R
-
+/*
 class AudioManager(private val context: Context)
 {
     var menuMediaPlayer: MediaPlayer? = null
     var mediaPlayer: MediaPlayer? = null
     var secondaryPlayer: MediaPlayer? = null
-
 
     fun playMenuMusic()
     {
@@ -74,7 +73,6 @@ class AudioManager(private val context: Context)
                 mediaPlayer!!.start()
             }
         }
-
     }
 
     fun playWin()
@@ -131,3 +129,5 @@ class AudioManager(private val context: Context)
         }
     }
 }
+
+ */

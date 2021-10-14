@@ -5,13 +5,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
+import com.mobilpogbead.audio.SingletonAudioManager
 import java.util.*
-import com.mobilpogbead.audio.AudioManager
+//import com.mobilpogbead.audio.AudioManager
 class MainMenu : AppCompatActivity()
 {
     val mTimer = Timer()
     lateinit var Title:ImageView
-    val au =AudioManager(this)
     fun toLeaderBoard(v:View)
     {
         startActivity(Intent(this,LeaderboardActivity::class.java))
@@ -19,6 +19,7 @@ class MainMenu : AppCompatActivity()
     fun toGame(v:View)
     {
         startActivity(Intent(this,MainActivity::class.java))
+        SingletonAudioManager.stopMenuMusic()
     }
     fun toSettings(v:View)
     {
@@ -34,6 +35,11 @@ class MainMenu : AppCompatActivity()
 
     override fun onStart() {
         super.onStart()
-        au.playMenuMusic()
+        SingletonAudioManager.playMenuMusic(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        SingletonAudioManager.playMenuMusic(this)
     }
 }

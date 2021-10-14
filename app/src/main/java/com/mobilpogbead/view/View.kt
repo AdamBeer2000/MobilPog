@@ -8,7 +8,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.graphics.get
 import androidx.core.graphics.set
-import com.mobilpogbead.audio.AudioManager
+import com.mobilpogbead.audio.SingletonAudioManager
+//import com.mobilpogbead.audio.AudioManager
 import com.mobilpogbead.entity.bullet.Bullet
 
 import com.mobilpogbead.model.Model
@@ -23,8 +24,6 @@ class View(private val model:Model,private var pointCounter:TextView,private var
     lateinit var imgv:ImageView
 
     lateinit var background:Bitmap
-
-    var audio = AudioManager(context)
 
     fun bind(imgv: ImageView)
     {
@@ -47,7 +46,7 @@ class View(private val model:Model,private var pointCounter:TextView,private var
             }
             else
             {
-                audio.playExplosion()
+                SingletonAudioManager.playExplosion(context)
                 canvas.drawBitmap(deathAnim, obj.x.toFloat(), obj.y.toFloat(), null)
             }
         }

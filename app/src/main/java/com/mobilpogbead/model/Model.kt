@@ -1,7 +1,8 @@
 package com.mobilpogbead.model
 import android.content.Context
 import android.util.Log
-import com.mobilpogbead.audio.AudioManager
+import com.mobilpogbead.audio.SingletonAudioManager
+//import com.mobilpogbead.audio.AudioManager
 import com.mobilpogbead.entity.*
 import com.mobilpogbead.entity.enemies.*
 import com.mobilpogbead.entity.SingletonEntityFactory
@@ -38,7 +39,6 @@ class Model(val boundaries:Boundaries, val context: Context)
     var enemyShootLastTime:Long=0
     var difficulti= DifficultiSettings.getSetting()
 
-    val audio = AudioManager(context)
     var result = 0
 
     fun getCurrTimeMillis()=System.currentTimeMillis()-timeStart
@@ -89,8 +89,7 @@ class Model(val boundaries:Boundaries, val context: Context)
     {
         if(enemyBullets.count()< min(difficulti.enemyBulletNum,enemys.size)&&!player.isDead()&&System.currentTimeMillis()-enemyShootLastTime>=difficulti.enemyShootIntervalMilli)
         {
-            val enemyAudio = AudioManager(context)
-            enemyAudio.playShoot()
+            SingletonAudioManager.playShoot(context)
 
             val enemy=enemys[abs(Random().nextInt())%enemys.size]
             val bullet: EnemyBullet =entityFactory.createEntity<EnemyBullet>(enemy.x,enemy.y) as EnemyBullet
@@ -104,7 +103,7 @@ class Model(val boundaries:Boundaries, val context: Context)
     {
         if(playerBullets.count()<difficulti.playerBulletNum&&!player.isDead()&&System.currentTimeMillis()-playerShootLastTime>=difficulti.playerShootIntervalMilli)
         {
-            audio.playShoot()
+            SingletonAudioManager.playShoot(context)
 
             val bullet: PlayerBullet =entityFactory.createEntity<PlayerBullet>(player.x+25,player.y-25) as PlayerBullet
             objects.add(bullet)
@@ -224,7 +223,7 @@ class Model(val boundaries:Boundaries, val context: Context)
         {
             if(bullet.collision(player))
             {
-                audio.playExplosion()
+                SingletonAudioManager.playExplosion(context)
                 Log.d("Hit","Hit")
             }
         }
