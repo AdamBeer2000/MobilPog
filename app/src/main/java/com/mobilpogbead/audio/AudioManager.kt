@@ -9,17 +9,21 @@ class AudioManager(private val context: Context)
     var menuMediaPlayer: MediaPlayer? = null
     var mediaPlayer: MediaPlayer? = null
     var secondaryPlayer: MediaPlayer? = null
+    var soundVolume: Float = 1.0F
+    var menuMusicVolume: Float = 1.0F
 
     fun playMenuMusic()
     {
         if(menuMediaPlayer == null)
         {
             menuMediaPlayer = MediaPlayer.create(context, R.raw.menu_music)
+            menuMediaPlayer!!.setVolume(menuMusicVolume, menuMusicVolume)
             menuMediaPlayer!!.isLooping = true;
             menuMediaPlayer!!.start()
         }
         else
         {
+            menuMediaPlayer!!.setVolume(menuMusicVolume, menuMusicVolume)
             menuMediaPlayer!!.isLooping = true;
             menuMediaPlayer!!.start()
         }
@@ -30,12 +34,14 @@ class AudioManager(private val context: Context)
         if(mediaPlayer == null)
         {
             mediaPlayer = MediaPlayer.create(context, R.raw.explosion)
+            mediaPlayer!!.setVolume(soundVolume, soundVolume)
             mediaPlayer!!.isLooping = false;
             mediaPlayer!!.start()
         }
         else
         {
             mediaPlayer = MediaPlayer.create(context, R.raw.explosion)
+            mediaPlayer!!.setVolume(soundVolume, soundVolume)
             mediaPlayer!!.isLooping = false;
             mediaPlayer!!.start()
         }
@@ -46,6 +52,7 @@ class AudioManager(private val context: Context)
         if (mediaPlayer == null)
         {
             mediaPlayer = MediaPlayer.create(context, R.raw.shoot)
+            mediaPlayer!!.setVolume(soundVolume, soundVolume)
             mediaPlayer!!.isLooping = false;
             mediaPlayer!!.start()
         }
@@ -56,12 +63,14 @@ class AudioManager(private val context: Context)
                 if (secondaryPlayer == null)
                 {
                     secondaryPlayer = MediaPlayer.create(context, R.raw.shoot)
+                    secondaryPlayer!!.setVolume(soundVolume, soundVolume)
                     secondaryPlayer!!.isLooping = false;
                     secondaryPlayer!!.start()
                 }
                 else
                 {
                     secondaryPlayer = MediaPlayer.create(context, R.raw.shoot)
+                    secondaryPlayer!!.setVolume(soundVolume, soundVolume)
                     secondaryPlayer!!.isLooping = false;
                     secondaryPlayer!!.start()
                 }
@@ -69,6 +78,7 @@ class AudioManager(private val context: Context)
             else
             {
                 mediaPlayer = MediaPlayer.create(context, R.raw.shoot)
+                mediaPlayer!!.setVolume(soundVolume, soundVolume)
                 mediaPlayer!!.isLooping = false;
                 mediaPlayer!!.start()
             }
@@ -80,14 +90,17 @@ class AudioManager(private val context: Context)
         if(mediaPlayer == null)
         {
             mediaPlayer = MediaPlayer.create(context, R.raw.win)
+            mediaPlayer!!.setVolume(soundVolume, soundVolume)
             mediaPlayer!!.isLooping = false;
             mediaPlayer!!.start()
         }
         else
         {
             mediaPlayer = MediaPlayer.create(context, R.raw.win)
+            mediaPlayer!!.setVolume(soundVolume, soundVolume)
             mediaPlayer!!.isLooping = false;
             mediaPlayer!!.start()
+
         }
     }
 
@@ -96,12 +109,14 @@ class AudioManager(private val context: Context)
         if(mediaPlayer == null)
         {
             mediaPlayer = MediaPlayer.create(context, R.raw.lose)
+            mediaPlayer!!.setVolume(soundVolume, soundVolume)
             mediaPlayer!!.isLooping = false;
             mediaPlayer!!.start()
         }
         else
         {
             mediaPlayer = MediaPlayer.create(context, R.raw.lose)
+            mediaPlayer!!.setVolume(soundVolume, soundVolume)
             mediaPlayer!!.isLooping = false;
             mediaPlayer!!.start()
         }
@@ -110,23 +125,12 @@ class AudioManager(private val context: Context)
 
     fun setMusicVolume(value: Float)
     {
-        if(menuMediaPlayer != null)
-        {
-            menuMediaPlayer!!.setVolume(value, value)
-        }
+        menuMusicVolume = value
     }
 
     fun setSoundsVolume(value: Float)
     {
-        if(mediaPlayer != null)
-        {
-            mediaPlayer!!.setVolume(value, value)
-        }
-
-        if(secondaryPlayer != null)
-        {
-            secondaryPlayer!!.setVolume(value, value)
-        }
+        soundVolume = value
     }
 }
 
