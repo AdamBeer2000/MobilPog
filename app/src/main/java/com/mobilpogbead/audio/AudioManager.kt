@@ -82,6 +82,7 @@ class AudioManager(private val context: Context)
         }
         else
         {
+            mediaPlayer = MediaPlayer.create(context, R.raw.win)
             mediaPlayer!!.isLooping = false;
             mediaPlayer!!.start()
         }
@@ -97,6 +98,7 @@ class AudioManager(private val context: Context)
         }
         else
         {
+            mediaPlayer = MediaPlayer.create(context, R.raw.lose)
             mediaPlayer!!.isLooping = false;
             mediaPlayer!!.start()
         }

@@ -34,6 +34,7 @@ class Model(val boundaries:Boundaries, val context: Context)
     var timeStart:Long=System.currentTimeMillis()
 
     val audio = AudioManager(context)
+    var result = 0
 
     fun getCurrTimeMillis()=System.currentTimeMillis()-timeStart
 
@@ -83,8 +84,6 @@ class Model(val boundaries:Boundaries, val context: Context)
     {
         if(enemyBullets.count()<=4&&!player.isDead())
         {
-            //audio.playShoot()
-
             val enemy=enemys[abs(Random().nextInt())%enemys.size]
             val bullet: EnemyBullet =entityFactory.createEntity<EnemyBullet>(enemy.x,enemy.y) as EnemyBullet
             objects.add(bullet)
@@ -110,12 +109,28 @@ class Model(val boundaries:Boundaries, val context: Context)
 
     fun winCheckh():Boolean
     {
-        return enemys.size==0
+        return if(enemys.size==0)
+        {
+            result = 1
+            true
+        }
+        else
+        {
+            false
+        }
     }
 
     fun failCheckh():Boolean
     {
-        return player.isDead()
+        return if (player.isDead())
+        {
+            result = 2
+            true
+        }
+        else
+        {
+            false
+        }
     }
 
     fun progress()

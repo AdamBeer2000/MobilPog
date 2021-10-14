@@ -15,6 +15,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintSet
+import com.mobilpogbead.audio.AudioManager
 import com.mobilpogbead.controller.Controller
 import com.mobilpogbead.database.DatabaseManager
 import com.mobilpogbead.database.Score
@@ -46,6 +47,8 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var timeCounter:TextView
     lateinit var gameOverTime:TextView
+
+    var audio = AudioManager(this)
 
     var currTime=0L
 
@@ -101,6 +104,8 @@ class MainActivity : AppCompatActivity() {
 
     fun gameOver()
     {
+        mTimer.cancel()
+
         gameOverPoints.text="Points: ${controller.model.pointCounter}"
         gameOverTime.text=timeCounter.text
 
@@ -110,6 +115,17 @@ class MainActivity : AppCompatActivity() {
         gameOverPoints.visibility=View.VISIBLE
         gamerName.visibility=View.VISIBLE
         gameOverTime.visibility=View.VISIBLE
+
+        if(controller.model.result == 1)
+        {
+            audio.playWin()
+            controller.model.result = 0
+        }
+        else if(controller.model.result == 2)
+        {
+            audio.playLose()
+            controller.model.result = 0
+        }
     }
 
     fun back(v:View)
