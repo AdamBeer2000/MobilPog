@@ -218,7 +218,11 @@ class Model(val boundaries:Boundaries, val context: Context)
 
         for(bullet in enemyBullets)
         {
-            if(bullet.collision(player)) Log.d("Hit","Hit")
+            if(bullet.collision(player))
+            {
+                audio.playExplosion()
+                Log.d("Hit","Hit")
+            }
         }
 
         for(barr in barricades)
