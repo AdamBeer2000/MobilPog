@@ -13,7 +13,6 @@ object SingletonAudioManager
     var mediaPlayer: MediaPlayer? = null
     var secondaryPlayer: MediaPlayer? = null
     */
-
     private val audioEffects=ArrayList<MediaPlayer>()
     private var menuMusic:MediaPlayer?=null
     private var volume:Float=AudioSettings.audioVolume

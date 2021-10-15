@@ -46,7 +46,6 @@ class View(private val model:Model,private var pointCounter:TextView,private var
             }
             else
             {
-                SingletonAudioManager.playExplosion(context)
                 canvas.drawBitmap(deathAnim, obj.x.toFloat(), obj.y.toFloat(), null)
             }
         }

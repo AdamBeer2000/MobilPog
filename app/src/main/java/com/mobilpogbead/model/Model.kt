@@ -211,11 +211,19 @@ class Model(val boundaries:Boundaries, val context: Context)
         {
             for(enenmy in enemys)
             {
-                if(bullet.collision(enenmy)) Log.d("Hit","Hit")
+                if(bullet.collision(enenmy))
+                {
+                    SingletonAudioManager.playExplosion(context)
+                    Log.d("Hit","Hit")
+                }
             }
             for(enenmybullet in enemyBullets)
             {
-                if(bullet.collision(enenmybullet)) Log.d("Hit","Hit")
+                if(bullet.collision(enenmybullet))
+                {
+                    SingletonAudioManager.playExplosion(context)
+                    Log.d("Hit","Hit")
+                }
             }
         }
 
@@ -231,7 +239,13 @@ class Model(val boundaries:Boundaries, val context: Context)
         for(barr in barricades)
         {
             for(bullet in bullets)
-            if(barr.collision(bullet)) Log.d("Hit","Hit")
+            {
+                if(barr.collision(bullet))
+                {
+                    SingletonAudioManager.playExplosion(context)
+                    Log.d("Hit","Hit")
+                }
+            }
         }
         clearDead()
     }
