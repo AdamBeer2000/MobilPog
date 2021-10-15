@@ -28,7 +28,7 @@
                 android:textColor="@color/white" />
 
             <Space
-                android:layout_width="32dp"
+                android:layout_width="19dp"
                 android:layout_height="19dp"
                 android:layout_weight="1" />
 
@@ -46,7 +46,7 @@
                 app:srcCompat="@drawable/player" />
 
             <Space
-                android:layout_width="32dp"
+                android:layout_width="12dp"
                 android:layout_height="19dp"
                 android:layout_weight="1" />
 
@@ -60,7 +60,7 @@
                 android:textColorLink="@color/white" />
 
             <Space
-                android:layout_width="32dp"
+                android:layout_width="18dp"
                 android:layout_height="19dp"
                 android:layout_weight="1" />
 
