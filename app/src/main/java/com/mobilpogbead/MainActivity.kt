@@ -129,11 +129,14 @@ class MainActivity : AppCompatActivity() {
 
     fun back(v:View)
     {
-        val name:String= gamerName.text.toString()
+        var name:String= gamerName.text.toString()
+        if(name == "")
+        {
+            name="Guest"
+        }
         val points:Int=controller.model.pointCounter
         val time:Float=currTime/1000F
 
-        //todo Adatbázis hozzáad
         this.setData(Score(name, points, time))
         
         val i=Intent(this,MainMenu::class.java)
@@ -142,11 +145,14 @@ class MainActivity : AppCompatActivity() {
 
     fun retryEvent(v:View)
     {
-        val name:String= gamerName.text.toString()
+        var name:String= gamerName.text.toString()
+        if(name == "")
+        {
+            name="Guest"
+        }
         val points:Int=controller.model.pointCounter
         val time:Float=currTime/1000F
 
-        //todo Adatbázis hozzáad
         this.setData(Score(name, points, time))
 
         val i=Intent(this,MainActivity::class.java)
