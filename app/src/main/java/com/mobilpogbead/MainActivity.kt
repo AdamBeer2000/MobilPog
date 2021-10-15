@@ -106,7 +106,7 @@ class MainActivity : AppCompatActivity() {
     {
         mTimer.cancel()
 
-        gameOverPoints.text="Points: ${controller.model.pointCounter}"
+        gameOverPoints.text="Score: ${controller.model.pointCounter}"
         gameOverTime.text=timeCounter.text
 
         gameOverBtn.visibility=View.VISIBLE
