@@ -44,6 +44,7 @@ class MainMenu : AppCompatActivity()
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
+        supportActionBar?.hide()
         setContentView(R.layout.activity_main_menu)
         Title=findViewById(R.id.imageView2)
 
