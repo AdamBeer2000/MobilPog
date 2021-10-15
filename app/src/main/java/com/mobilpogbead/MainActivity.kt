@@ -52,7 +52,8 @@ class MainActivity : AppCompatActivity() {
     var currTime=0L
 
     val lock = ReentrantLock()
-    var onHold:Boolean = false
+    var finished:Boolean = false
+
 
     init
     {
@@ -125,6 +126,8 @@ class MainActivity : AppCompatActivity() {
             SingletonAudioManager.playLose(this)
             controller.model.result = 0
         }
+
+
     }
 
     fun back(v:View)
@@ -138,7 +141,7 @@ class MainActivity : AppCompatActivity() {
         val time:Float=currTime/1000F
 
         this.setData(Score(name, points, time))
-        
+        finished=true
         val i=Intent(this,MainMenu::class.java)
         startActivity(i)
     }
@@ -154,7 +157,7 @@ class MainActivity : AppCompatActivity() {
         val time:Float=currTime/1000F
 
         this.setData(Score(name, points, time))
-
+        finished=true
         val i=Intent(this,MainActivity::class.java)
         startActivity(i)
     }
@@ -311,6 +314,11 @@ class MainActivity : AppCompatActivity() {
     override fun onResume()
     {
         Log.d("Life","Resume")
+        if(finished)
+        {
+            val i=Intent(this,MainMenu::class.java)
+            startActivity(i)
+        }
         super.onResume()
     }
 

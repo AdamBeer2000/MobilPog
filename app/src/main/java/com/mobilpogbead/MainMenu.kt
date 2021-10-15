@@ -71,6 +71,7 @@ class MainMenu : AppCompatActivity()
     }
 
     override fun onResume() {
+
         super.onResume()
         SingletonAudioManager.playMenuMusic(this)
     }
