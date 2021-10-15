@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.view.View
+import android.view.Window
 import android.widget.ImageView
 import androidx.core.app.ActivityCompat
 import com.mobilpogbead.audio.SingletonAudioManager
@@ -43,6 +44,7 @@ class MainMenu : AppCompatActivity()
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
+        supportActionBar?.hide()
         setContentView(R.layout.activity_main_menu)
         Title=findViewById(R.id.imageView2)
 

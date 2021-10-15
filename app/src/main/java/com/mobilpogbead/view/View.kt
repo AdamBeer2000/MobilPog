@@ -51,7 +51,7 @@ class View(private val model:Model,private var pointCounter:TextView,private var
             }
         }
         imgv.setImageBitmap(renderedImage)
-        pointCounter.text="Points:${model.pointCounter}"
+        pointCounter.text=" Score: ${model.pointCounter}"
         lifeCounter.text="${model.player.getHp()}x"
         //Log.d("Update","Time:$elapsed s")
     }
