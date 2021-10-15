@@ -203,6 +203,7 @@ class MainActivity : AppCompatActivity() {
         timeCounter=findViewById(R.id.timeCounterTw2)
         gameOverTime=findViewById(R.id.gameOverTimeTw)
 
+        highscoreTw.setText("HI: ${db.getHighscore().toString()}")
 
         gameOverBtn.visibility=View.INVISIBLE
         gameOverText.visibility=View.INVISIBLE
@@ -212,7 +213,6 @@ class MainActivity : AppCompatActivity() {
         gameOverTime.visibility=View.INVISIBLE
 
         controller.view.bind(img)
-
     }
 
     override fun onStart()
