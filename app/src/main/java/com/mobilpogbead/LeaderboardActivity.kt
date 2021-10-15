@@ -49,7 +49,6 @@ class LeaderboardActivity : AppCompatActivity()
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_leaderboard)
         val scores=dataLoad()
         scoresLayout= findViewById(R.id.scoresLayout)
