@@ -165,4 +165,19 @@ class DatabaseManager(context: Context?): SQLiteOpenHelper(context, "invfromspac
         }
         db.close()
     }
+
+    fun clearTable()
+    {
+        val db: SQLiteDatabase = this.writableDatabase
+        val query = "DELETE FROM " + this.DB_TABLE
+        try
+        {
+            db.execSQL(query)
+        }
+        catch(e: SQLiteException)
+        {
+            Log.d("DATABASE", e.toString())
+        }
+        db.close()
+    }
 }
