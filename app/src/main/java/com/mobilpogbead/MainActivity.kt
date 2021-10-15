@@ -261,7 +261,7 @@ class MainActivity : AppCompatActivity() {
                                 lock.unlock()
                                 currTime=controller.model.getCurrTimeMillis()
 
-                                timeCounter.text="Time: ${currTime/1000.0}s"
+                                timeCounter.text="Time: ${(currTime/1000.0).toInt()}s"
                                 Log.d("Stat","progress:$progress nano")
                                 Log.d("Stat","move:$move nano")
                                 Log.d("Stat","update:$update nano")
