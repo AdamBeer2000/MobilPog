@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.mobilpogbead">
     <!-- <uses-permission android:name="android.permission.BODY_SENSORS"/> -->
     <uses-feature
@@ -13,6 +14,12 @@
         android:required="true" />
     <uses-feature
         android:name="android.hardware.sensor.gyroscope_uncalibrated"
+        android:required="true" />
+    <uses-permission
+        android:name="android.permission.WRITE__EXTERNAL_STORAGE"
+        android:required="true" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:required="true" />
 
     <application

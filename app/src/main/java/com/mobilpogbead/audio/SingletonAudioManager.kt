@@ -27,6 +27,7 @@ object SingletonAudioManager
                 menuMusic = MediaPlayer.create(context, R.raw.menu_music)
                 menuMusic?.isLooping = true;
                 menuMusic?.start()
+                menuMusic?.setVolume(volume,volume)
                 Log.d("MediaPlayer","Created menu_music")
                 menuMusic?.setOnCompletionListener { player ->
                     audioEffects.remove(player)
@@ -35,6 +36,7 @@ object SingletonAudioManager
             }else if(!menuMusic?.isPlaying!!)
             {
                 menuMusic?.start()
+                menuMusic?.setVolume(volume,volume)
             }
         }
     }
