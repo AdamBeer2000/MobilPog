@@ -61,8 +61,6 @@ class MainMenu : AppCompatActivity()
             Log.d("LoadSettings","${setting}")
             setting.useThis()
         }
-
-
     }
 
     override fun onStart() {
