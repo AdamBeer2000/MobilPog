@@ -128,15 +128,19 @@ class Model(val boundaries:Boundaries, val context: Context)
 
     fun failCheckh():Boolean
     {
-        return if (player.isDead())
+        if (player.isDead())
         {
             result = 2
-            true
+            return true
         }
-        else
+        for(enemy in enemys)
         {
-            false
+            if(enemy.y+enemy.height+400>=boundaries.yMax)
+            {
+                return true
+            }
         }
+        return false
     }
 
     fun progress()
@@ -145,7 +149,10 @@ class Model(val boundaries:Boundaries, val context: Context)
         {
             spaceship=entityFactory.createEntity<Spaceship>(boundaries.xMax,50)as Spaceship
             if(spaceship!=null)
-            objects.add(spaceship as Spaceship)
+            {
+                objects.add(spaceship as Spaceship)
+                enemys.add(spaceship as Spaceship)
+            }
         }
 
         for(Bullet in playerBullets)
@@ -281,7 +288,11 @@ class Model(val boundaries:Boundaries, val context: Context)
         playerBullets.remove(obj)
         enemyBullets.remove(obj)
         barricades.remove(obj)
-        if(obj is Spaceship)spaceship=null
+        if(obj is Spaceship)
+        {
+            spaceship?.hit(player)
+            spaceship=null
+        }
     }
 
     fun cleanObjects()
