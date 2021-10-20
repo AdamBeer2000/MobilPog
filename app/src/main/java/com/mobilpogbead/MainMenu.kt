@@ -1,26 +1,16 @@
 package com.mobilpogbead
 
 import android.content.Intent
-import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Environment
 import android.util.Log
 import android.view.View
-import android.view.Window
 import android.widget.ImageView
-import androidx.core.app.ActivityCompat
 import com.mobilpogbead.audio.SingletonAudioManager
-import com.mobilpogbead.settings.AudioSettings
 import java.io.File
 import java.util.*
 import com.google.gson.*
-import com.google.gson.reflect.TypeToken
-import com.google.gson.stream.JsonReader
 import com.mobilpogbead.settings.MySettings
-import com.mobilpogbead.settings.getCurrentSettings
-import java.io.StringReader
-import java.lang.reflect.Type
 
 //import com.mobilpogbead.audio.AudioManager
 class MainMenu : AppCompatActivity()
@@ -36,9 +26,13 @@ class MainMenu : AppCompatActivity()
         startActivity(Intent(this,MainActivity::class.java))
         SingletonAudioManager.stopMenuMusic()
     }
-    fun toSettings(v:View)
+    fun toAudioSettings(v:View)
     {
-        startActivity(Intent(this,Settings::class.java))
+        startActivity(Intent(this,AudioSettingsView::class.java))
+    }
+    fun toDifficultySettings(v:View)
+    {
+        startActivity(Intent(this,DifficultySettingsView::class.java))
     }
 
     override fun onCreate(savedInstanceState: Bundle?)

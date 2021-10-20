@@ -126,8 +126,6 @@ class MainActivity : AppCompatActivity() {
             SingletonAudioManager.playLose(this)
             controller.model.result = 0
         }
-
-
     }
 
     fun back(v:View)

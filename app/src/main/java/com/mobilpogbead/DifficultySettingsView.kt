@@ -1,30 +1,22 @@
 package com.mobilpogbead
 
 import android.annotation.SuppressLint
-import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Environment
 import android.util.Log
-import android.view.Window
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.SeekBar
 import android.widget.TextView
-import androidx.core.app.ActivityCompat
 import com.google.gson.Gson
 import com.mobilpogbead.audio.SingletonAudioManager
 import com.mobilpogbead.settings.AudioSettings
 import com.mobilpogbead.settings.DifficultiSettings
-import com.mobilpogbead.settings.MySettings
 import java.io.File
-import com.google.gson.reflect.TypeToken
 import com.mobilpogbead.settings.getCurrentSettings
-import java.lang.reflect.Type
-import java.util.jar.Manifest
 
 
-class Settings : AppCompatActivity() {
+class DifficultySettingsView : AppCompatActivity() {
 
     lateinit var radioButtonEasy: RadioButton
     lateinit var radioButtonMedium: RadioButton
@@ -44,7 +36,7 @@ class Settings : AppCompatActivity() {
     {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
-        setContentView(R.layout.activity_settings)
+        setContentView(R.layout.activity_settings_difficulty)
 
         radioButtonEasy = findViewById(R.id.difficultyRadioGroupEasy)
         radioButtonMedium = findViewById(R.id.difficultyRadioGroupMedium)
@@ -52,19 +44,6 @@ class Settings : AppCompatActivity() {
         difficultyRadioButtonGroup = findViewById(R.id.difficultyRadioGroup)
 
         difficultyInfoText = findViewById(R.id.difficoltyInfoText)
-
-        musicRadioGrupOn = findViewById(R.id.musicRadioGrupOn)
-        musicRadioGrupOff = findViewById(R.id.musicRadioGrupOff)
-        musicRadioGrup = findViewById(R.id.musicRadioGrup)
-
-        volumeSeekBar = findViewById(R.id.volumeSeekBar)
-        volumeSeekBar.setMax(10)
-        volumeSeekBar.progress = (AudioSettings.audioVolume * 10).toInt()
-
-
-        percentageView = findViewById(R.id.percentageView)
-
-        percentageView.text = "${(AudioSettings.audioVolume * 100).toInt()}%"
 
         when (DifficultiSettings.diffisultiSetting) {
             DifficultiSettings.Difficulti.Easy -> {
@@ -77,46 +56,11 @@ class Settings : AppCompatActivity() {
                 difficultyRadioButtonGroup.check(R.id.difficultyRadioGroupHard)
             }
         }
+
         difficultyInfoText.text = DifficultiSettings.getSetting().info
 
         difficultyRadioButtonGroup.setOnCheckedChangeListener { radioGroup, i ->
             changeDificulti(i)
-        }
-
-        volumeSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-
-            override fun onProgressChanged(seekBar: SeekBar, i: Int, b: Boolean) {
-                AudioSettings.audioVolume = seekBar.progress / 10F
-                percentageView.text = "${seekBar.progress * 10}%"
-                Log.d("Seekbar", "${seekBar.progress}")
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar) {
-                AudioSettings.audioVolume = seekBar.progress / 10F
-                percentageView.text = "${seekBar.progress * 10}%"
-                Log.d("Seekbar", "${seekBar.progress}")
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar) {
-                AudioSettings.audioVolume = seekBar.progress / 10F
-                percentageView.text = "${seekBar.progress * 10}%"
-                Log.d("Seekbar", "${seekBar.progress}")
-            }
-        })
-
-        when (AudioSettings.MusicStateSetting) {
-            AudioSettings.MusicState.On -> musicRadioGrup.check(R.id.musicRadioGrupOn)
-            AudioSettings.MusicState.Off -> musicRadioGrup.check(R.id.musicRadioGrupOff)
-        }
-
-        musicRadioGrup.setOnCheckedChangeListener { radioGroup, i ->
-            if (i == R.id.musicRadioGrupOn) {
-                AudioSettings.MusicStateSetting = AudioSettings.MusicState.On
-                SingletonAudioManager.playMenuMusic(this)
-            } else {
-                AudioSettings.MusicStateSetting = AudioSettings.MusicState.Off
-                SingletonAudioManager.stopMenuMusic()
-            }
         }
     }
 

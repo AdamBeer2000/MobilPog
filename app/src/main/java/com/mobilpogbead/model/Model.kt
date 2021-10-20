@@ -151,7 +151,6 @@ class Model(val boundaries:Boundaries, val context: Context)
             if(spaceship!=null)
             {
                 objects.add(spaceship as Spaceship)
-                enemys.add(spaceship as Spaceship)
             }
         }
 
@@ -216,6 +215,11 @@ class Model(val boundaries:Boundaries, val context: Context)
     {
         for(bullet in playerBullets)
         {
+            if(spaceship?.let { bullet.collision(it) } == true)
+            {
+                SingletonAudioManager.playExplosion(context)
+                Log.d("Hit","Hit")
+            }
             for(enenmy in enemys)
             {
                 if(bullet.collision(enenmy))
